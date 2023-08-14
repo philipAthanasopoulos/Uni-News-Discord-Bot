@@ -73,8 +73,9 @@ public class Scraper implements IScraper {
                                     .replace(".", "")
                                     .replace(":", "");
 
-
-            File file = new File(System.getProperty("user.dir") + "/demo/src/main/java/app/outputs/" + siteName + ".txt");                
+            String path = System.getProperty("user.dir") + "/demo/src/main/java/app/outputs/" + siteName + ".txt";
+            File file = new File(path);      
+            System.out.println("Saving results to " + file.getAbsolutePath());          
             /*
              * Write the results to the file.
              */
