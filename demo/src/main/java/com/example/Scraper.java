@@ -1,3 +1,10 @@
+/**
+ * This class implements the IScraper interface and provides methods to scrape HTML tags from websites.
+ * It uses the Jsoup library to parse HTML and extract the text from the specified tag.
+ * The scraped data is saved to a file in the specified directory.
+ * The class provides three methods to scrape tags from a single website, multiple websites, and multiple websites with multiple tags.
+ * The class also includes color codes for console output to indicate success or failure of the scraping process.
+ */
 package com.example;
 
 import java.io.BufferedReader;
@@ -11,13 +18,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class Scraper {
+
+public class Scraper implements IScraper {
     //green color unicode
     String green = "\u001B[32m";
     //red color unicode
@@ -28,6 +35,7 @@ public class Scraper {
     public Scraper(){
     }
     
+    @Override
     public File scrapeTagFromSite(String site, String tag) {
         
         try {
@@ -67,13 +75,20 @@ public class Scraper {
 
 
             File file = new File("C:\\Users\\Philip\\Desktop\\Java Projects\\WebScraper\\demo\\src\\main\\java\\com\\example\\output." + siteName + ".txt");
-            // Write the results to a file
+            
+            /*
+             * Write the results to the file.
+             */
             FileWriter  writer = new FileWriter(file );
             for (String title : titles) {
                 writer.write(title + "\n");
             }
+
             writer.close();
             
+            /*
+             * If the file is empty, delete it and throw an exception.
+             */
             if(!(file.length() > 0)) {
                 file.delete();
                 throw new Exception("No results found!");
@@ -96,6 +111,7 @@ public class Scraper {
     
 
 
+    @Override
     public List<File> scrapeTagFromSite(List<String> sites , String tag) {
         List<File> results = new ArrayList<File>();
         for(String site : sites){
@@ -104,6 +120,7 @@ public class Scraper {
         return results;
     }
 
+    @Override
     public void scrapeTagFromSite(List<String> sites , List<String> tags) {
         //key = site , value = tag
         Map<String , String> map = new HashMap<String , String>();

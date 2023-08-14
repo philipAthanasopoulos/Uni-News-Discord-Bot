@@ -20,7 +20,7 @@ public class AppTest
     public void testCommonSites() throws Exception
     {
 
-        Scraper scraper = new Scraper();
+        IScraper scraper = new Scraper();
         List<String> urls = new ArrayList<String>();
         urls.add("https://www.google.com");
         urls.add("https://www.yahoo.com");
@@ -39,7 +39,7 @@ public class AppTest
 
     @Test
     public void existingFileDoesNotGetDeleted() throws Exception {
-        Scraper scraper = new Scraper();
+        IScraper scraper = new Scraper();
         File file = new File("output.googlecom.txt");
         FileWriter writer = new FileWriter(file);
         writer.write("This is a test");
