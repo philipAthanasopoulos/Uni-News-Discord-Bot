@@ -1,6 +1,8 @@
 package app;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import scraper.Scraper;
 
@@ -21,6 +23,5 @@ public class App {
         scraper.scrapeTagFromSite(site, htmlTag);
 
         scanner.close();
-        
     }
 }
