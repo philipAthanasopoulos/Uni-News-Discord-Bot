@@ -1,4 +1,4 @@
-package com.example;
+package summarizer;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

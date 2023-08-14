@@ -5,7 +5,7 @@
  * The class provides three methods to scrape tags from a single website, multiple websites, and multiple websites with multiple tags.
  * The class also includes color codes for console output to indicate success or failure of the scraping process.
  */
-package com.example;
+package scraper;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -74,8 +74,7 @@ public class Scraper implements IScraper {
                                     .replace(":", "");
 
 
-            File file = new File("C:\\Users\\Philip\\Desktop\\Java Projects\\WebScraper\\demo\\src\\main\\java\\com\\example\\output." + siteName + ".txt");
-            
+            File file = new File(System.getProperty("user.dir") + "/demo/src/main/java/app/outputs/" + siteName + ".txt");                
             /*
              * Write the results to the file.
              */

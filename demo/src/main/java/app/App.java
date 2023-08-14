@@ -1,12 +1,14 @@
-package com.example;
+package app;
 
 import java.io.IOException;
 import java.util.Scanner;
+import scraper.Scraper;
+
 
 public class App {
     public static void main(String[] args) throws IOException {
-        IScraper scraper = new Scraper();
         Scanner scanner = new Scanner(System.in);
+        Scraper scraper = new Scraper();
         String site;
         String htmlTag;
 
@@ -19,6 +21,6 @@ public class App {
         scraper.scrapeTagFromSite(site, htmlTag);
 
         scanner.close();
-           
+        
     }
 }
