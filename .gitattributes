@@ -7,3 +7,6 @@
 # Ignore files and directories that match these patterns
 .gitignore -text
 *.exe -text
+
+# Set the programming language for a file
+ *.java linguist-language=Java
