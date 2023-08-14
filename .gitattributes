@@ -1,0 +1,9 @@
+# Set the default text encoding
+* text=auto
+
+# Set the line endings to LF on all platforms
+* eol=lf
+
+# Ignore files and directories that match these patterns
+.gitignore -text
+*.exe -text
