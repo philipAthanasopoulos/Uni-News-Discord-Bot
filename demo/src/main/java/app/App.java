@@ -78,13 +78,5 @@ public class App {
                 e1.printStackTrace();
             }
         });
-
-        
-
-
-
-
-        
-        
     }
 }
