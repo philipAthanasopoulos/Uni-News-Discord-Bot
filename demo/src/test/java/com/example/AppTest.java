@@ -17,25 +17,25 @@ import scraper.Scraper;
 public class AppTest 
 {
     
-    @Test
-    @Ignore
-    // TODO: FIX ME
-    public void testCommonSites() throws Exception
-    {
+    // @Test
+    // @Ignore
+    // // TODO: FIX ME
+    // public void testCommonSites() throws Exception
+    // {
 
-        Scraper scraper = new Scraper();
-        List<String> urls = new ArrayList<String>();
-        urls.add("https://www.google.com");
-        urls.add("https://www.yahoo.com");
-        urls.add("https://www.bing.com");
+    //     Scraper scraper = new Scraper();
+    //     List<String> urls = new ArrayList<String>();
+    //     urls.add("https://www.google.com");
+    //     urls.add("https://www.yahoo.com");
+    //     urls.add("https://www.bing.com");
 
-        List<File> files = scraper.scrapeTagFromSite(urls , "a");
-        for(File file : files){
-            assertNotNull(file);
-            assertTrue(file.exists());
-            assertTrue(file.length() > 0);
-        } 
-    }
+    //     List<File> files = scraper.scrapeTagFromSite(urls , "a");
+    //     for(File file : files){
+    //         assertNotNull(file);
+    //         assertTrue(file.exists());
+    //         assertTrue(file.length() > 0);
+    //     } 
+    // }
 
     @Test
     public void existingFileDoesNotGetDeleted() throws Exception {

@@ -1,0 +1,4 @@
+app\App.class
+scraper\IScraper.class
+summarizer\Summarizer.class
+scraper\Scraper.class

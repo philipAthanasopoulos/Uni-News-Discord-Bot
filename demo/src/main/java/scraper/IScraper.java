@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.List;
 
 public interface IScraper {
-
     /**
      * Scrape a tag from a site and return the new file containing the scraped data
      * 
@@ -31,5 +30,4 @@ public interface IScraper {
      * @param tags the HTML tags to scrape
      */
     void scrapeTagFromSite(List<String> sites, List<String> tags);
-
 }
