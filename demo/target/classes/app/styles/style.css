@@ -1,13 +1,10 @@
 /* Set the background color of the scene */
-.scene {
-    -fx-background-color: #f5f5f5;
-}
 
 /* Style the site label */
 .site-label {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-text-fill: #333;
+    -fx-text-fill: #000;
 }
 
 /* Style the site input field */
@@ -26,11 +23,12 @@
 .tag-label {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-text-fill: #333;
+    -fx-text-fill: #000;
 }
 
 /* Style the tag input field */
 .tag-input {
+    
     -fx-font-size: 16px;
     -fx-pref-width: 300px;
     -fx-pref-height: 40px;
@@ -46,16 +44,16 @@
     -fx-font-size: 16px;
     -fx-width: 100px;
     -fx-pref-height: 40px;
-    -fx-background-color: #4CAF50;
+    -fx-background-color: #f39004;
     -fx-text-fill: #fff;
-    -fx-border-radius: 100pt;
+    -fx-border-radius: 100px;
     -fx-border-width: 0px;
     -fx-cursor: hand;
     -fx-padding: 5px;
 }
 
 .submit-button:hover {
-    -fx-background-color: #46a049;
+    -fx-background-color: #de8405;
 }
 
 
@@ -65,13 +63,19 @@
     -fx-font-size: 16px;
     -fx-text-fill: #333;
     -fx-padding: 10px;
-    -fx-background-color: #fff;
-    -fx-border-color: #ccc;
-    -fx-border-radius: 5px;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #fff;
+    -fx-border-radius: 20px;
     -fx-border-width: 1px;
     -fx-wrap-text: true;
 }
 
+.vbox {
+    -fx-background-color: #fff;
+    -fx-spacing: 20px;
+    -fx-padding: 20px;
+}
+
 *{
-    -fx-font-family: "Roboto", sans-serif;
+    -fx-font-family: "Trebuchet MS", sans-serif;
 }

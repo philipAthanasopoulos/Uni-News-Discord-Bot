@@ -78,6 +78,19 @@ public class App extends Application {
             }
         });
 
+        
+        //if enter is pressed execute submit button action
+        layout.setOnKeyPressed(e -> {
+            switch (e.getCode()) {
+                case ENTER:
+                    submitButton.fire();
+                    break;
+                default:
+                    break;
+            }
+        });
+
+
         Scene scene = new Scene(layout, 500, 500);
         scene.getStylesheets().add(getClass().getResource("styles/style.css").toExternalForm());
         primaryStage.setScene(scene);
