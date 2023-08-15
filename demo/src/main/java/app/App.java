@@ -31,31 +31,31 @@ public class App extends Application {
          * Site link input
          */
         Label siteLabel = new Label("Enter a site to scrape:");
-        siteLabel.setFont(Font.font(20));
+        siteLabel.getStyleClass().add("site-label");
         TextField siteLabelInput = new TextField();
-        siteLabelInput.setFont(Font.font(20));
-        GridPane.setConstraints(siteLabel, 0, 0);
-        GridPane.setConstraints(siteLabelInput, 1, 0);
+        siteLabelInput.getStyleClass().add("site-input");
+        siteLabelInput.setPromptText("https://www.example.com");
 
         /*
          * HTML tag input
          */
         Label tagLabel = new Label("Enter an HTML tag to scrape:");
-        tagLabel.setFont(Font.font(20));
+        tagLabel.getStyleClass().add("tag-label");
         TextField tagLabelInput = new TextField();
-        tagLabelInput.setFont(Font.font(20));
+        tagLabelInput.getStyleClass().add("tag-input");
+        tagLabelInput.setPromptText("h1");
         GridPane.setConstraints(tagLabel, 0, 1);
         GridPane.setConstraints(tagLabelInput, 1, 1);
 
         // submit button
         Button submitButton = new Button("Submit");
-        submitButton.setFont(Font.font(20));
+        submitButton.getStyleClass().add("submit-button");
         Label scrapedDataLabel = new Label("Scraped data will appear here");
         scrapedDataLabel.setFont(Font.font(20));
-        VBox layout = new VBox(10);
-        layout.setPadding(new Insets(10, 10, 10, 10));
+        VBox layout = new VBox();
+        layout.getStyleClass().add("vbox");
         layout.getChildren().addAll(siteLabel, siteLabelInput, tagLabel, tagLabelInput, submitButton, scrapedDataLabel);
-        layout.setAlignment(Pos.CENTER);
+        // layout.setAlignment(Pos.CENTER);
 
         // submit button action
         submitButton.setOnAction(e -> {
@@ -77,8 +77,11 @@ public class App extends Application {
         });
 
         Scene scene = new Scene(layout, 500, 500);
+        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        submitButton.requestFocus();
     }
 
     public static void main(String[] args) {
