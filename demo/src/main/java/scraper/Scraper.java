@@ -25,11 +25,9 @@ import org.jsoup.select.Elements;
 
 
 public class Scraper implements IScraper {
-    //green color unicode
+    //color codes for console output
     String green = "\u001B[32m";
-    //red color unicode
     String red = "\u001B[31m";
-    //reset color unicode
     String reset = "\u001B[0m";
 
     public Scraper(){
@@ -71,33 +69,29 @@ public class Scraper implements IScraper {
                                     .replace("www", "")
                                     .replace("/", "")
                                     .replace(".", "")
+                                    .replace("?", "")
+                                    .replace("=", "")
+                                    .replace("&", "")
                                     .replace(":", "");
-
             String path = System.getProperty("user.dir") + "/demo/src/main/java/app/outputs/" + siteName + ".txt";
             File file = new File(path);      
+            
+            
+            // Write the results to the file
             System.out.println("Saving results to " + file.getAbsolutePath());          
-            /*
-             * Write the results to the file.
-             */
             FileWriter  writer = new FileWriter(file );
             for (String title : titles) {
                 writer.write(title + "\n");
             }
-
             writer.close();
             
-            /*
-             * If the file is empty, delete it and throw an exception.
-             */
+            //check if file is empty
             if(!(file.length() > 0)) {
                 file.delete();
                 throw new Exception("No results found!");
-
             } 
             
-        
             System.out.println(green + "Scrape complete!" + reset);
-
             return file;
             
         } catch (Exception e) {
@@ -105,11 +99,7 @@ public class Scraper implements IScraper {
             System.out.println("Error: " + red + e + reset);
             return null;
         }
-
     }
-
-    
-
 
     @Override
     public List<File> scrapeTagFromSite(List<String> sites , String tag) {
