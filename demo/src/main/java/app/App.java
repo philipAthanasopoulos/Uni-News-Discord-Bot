@@ -26,6 +26,8 @@ public class App extends Application {
     public void start(Stage primaryStage) {
         // Main window
         primaryStage.setTitle("Web Scraper");
+        primaryStage.setResizable(false);
+        
 
         /*
          * Site link input
@@ -34,7 +36,7 @@ public class App extends Application {
         siteLabel.getStyleClass().add("site-label");
         TextField siteLabelInput = new TextField();
         siteLabelInput.getStyleClass().add("site-input");
-        siteLabelInput.setPromptText("https://www.example.com");
+        siteLabelInput.setPromptText("e.g. https://www.example.com");
 
         /*
          * HTML tag input
@@ -43,7 +45,7 @@ public class App extends Application {
         tagLabel.getStyleClass().add("tag-label");
         TextField tagLabelInput = new TextField();
         tagLabelInput.getStyleClass().add("tag-input");
-        tagLabelInput.setPromptText("h1");
+        tagLabelInput.setPromptText("e.g. h1");
         GridPane.setConstraints(tagLabel, 0, 1);
         GridPane.setConstraints(tagLabelInput, 1, 1);
 
@@ -51,7 +53,7 @@ public class App extends Application {
         Button submitButton = new Button("Submit");
         submitButton.getStyleClass().add("submit-button");
         Label scrapedDataLabel = new Label("Scraped data will appear here");
-        scrapedDataLabel.setFont(Font.font(20));
+        scrapedDataLabel.getStyleClass().add("scraped-data-label");
         VBox layout = new VBox();
         layout.getStyleClass().add("vbox");
         layout.getChildren().addAll(siteLabel, siteLabelInput, tagLabel, tagLabelInput, submitButton, scrapedDataLabel);
@@ -77,11 +79,12 @@ public class App extends Application {
         });
 
         Scene scene = new Scene(layout, 500, 500);
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("styles/style.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
 
         submitButton.requestFocus();
+
     }
 
     public static void main(String[] args) {
