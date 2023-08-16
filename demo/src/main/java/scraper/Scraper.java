@@ -64,16 +64,20 @@ public class Scraper implements IScraper {
             }
         
             // Create a file object to save the results
-            String siteName = site.replace("https://", "")
-                                    .replace("http://", "")
-                                    .replace("www", "")
-                                    .replace("/", "")
-                                    .replace(".", "")
-                                    .replace("?", "")
-                                    .replace("=", "")
-                                    .replace("&", "")
-                                    .replace(":", "");
-            String path = System.getProperty("user.dir") + "/demo/src/main/java/app/outputs/" + siteName + ".txt";
+            /*
+             * Will implement in the future
+             */
+            // String siteName = site.replace("https://", "")
+            //                         .replace("http://", "")
+            //                         .replace("www", "")
+            //                         .replace("/", "")
+            //                         .replace(".", "")
+            //                         .replace("?", "")
+            //                         .replace("=", "")
+            //                         .replace("&", "")
+            //                         .replace(":", "");
+            // String path = System.getProperty("user.dir") + "/demo/src/main/java/app/outputs/" + siteName + ".txt";
+            String path = System.getProperty("user.dir") + "/demo/src/main/java/app/outputs/" + "output.txt";
             File file = new File(path);      
             
             
