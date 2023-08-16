@@ -100,11 +100,11 @@ public class App extends Application {
 
 
         Scene scene = new Scene(layout, 500, 500);
-        scene.getStylesheets().add(getClass().getResource("styles/style.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("resources/styles/style.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
         //add logo
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("resources/logo.png")));
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("resources/img/logo.png")));
 
         submitButton.requestFocus();
 
