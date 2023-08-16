@@ -1,10 +1,3 @@
-/**
- * This class implements the IScraper interface and provides methods to scrape HTML tags from websites.
- * It uses the Jsoup library to parse HTML and extract the text from the specified tag.
- * The scraped data is saved to a file in the specified directory.
- * The class provides three methods to scrape tags from a single website, multiple websites, and multiple websites with multiple tags.
- * The class also includes color codes for console output to indicate success or failure of the scraping process.
- */
 package scraper;
 
 import java.io.BufferedReader;
@@ -27,6 +20,15 @@ import org.jsoup.select.Elements;
 
 import app.resources.UnicodeColors;
 
+/**
+ * This class implements the IScraper interface and provides methods to scrape HTML tags from websites.
+ * It uses the Jsoup library to parse HTML and extract the text from the specified tag.
+ * The scraped data is saved to a file in the specified directory.
+ * The class provides three methods to scrape tags from a single website, multiple websites, and multiple websites with multiple tags.
+ * The class also includes color codes for console output to indicate success or failure of the scraping process.
+ * 
+ * @author Philip Athanasopoulos
+ */
 
 public class Scraper implements IScraper {
 
