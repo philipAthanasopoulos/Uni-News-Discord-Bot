@@ -11,7 +11,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -24,6 +27,11 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
+        
+        
+
+
         // Main window
         primaryStage.setTitle("Web Scraper");
         primaryStage.setResizable(false);
@@ -95,6 +103,8 @@ public class App extends Application {
         scene.getStylesheets().add(getClass().getResource("styles/style.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
+        //add logo
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("resources/logo.png")));
 
         submitButton.requestFocus();
 
