@@ -28,7 +28,7 @@ words = [word for sentence in sentences for word in sentence.split() if word.low
 parser = PlaintextParser.from_string(text, Tokenizer('greek'))
 summarizer = TextRankSummarizer()
 summarizer.stop_words = get_stop_words('greek')
-summary = summarizer(parser.document, sentences_count=2)
+summary = summarizer(parser.document, sentences_count=3)
 
 # combine extracted and compressed sentences into summary
 summary = ' '.join(str(sentence) for sentence in summary)

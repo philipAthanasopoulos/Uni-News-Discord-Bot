@@ -72,18 +72,21 @@ public class App extends Application {
             Scraper scraper = new Scraper();
             String siteLink = siteLabelInput.getText();
             String htmlTag = tagLabelInput.getText();
-            File scrapedData = scraper.scrapeTagFromSite(siteLink, htmlTag);
+            scraper.scrapeTagFromSite(siteLink, htmlTag);
+            
+            String summary = scraper.summarizeScrapedData();
+            scrapedDataLabel.setText(summary);
 
-            try (Scanner scanner = new Scanner(scrapedData)) {
-                String scrapedDataString = "";
-                while (scanner.hasNextLine()) {
-                    scrapedDataString += scanner.nextLine() + " | ";                    
-                }
-                scanner.close();
-                scrapedDataLabel.setText(scrapedDataString);
-            } catch (FileNotFoundException e1) {
-                e1.printStackTrace();
-            }
+            // try (Scanner scanner = new Scanner(scrapedData)) {
+            //     String scrapedDataString = "";
+            //     while (scanner.hasNextLine()) {
+            //         scrapedDataString += scanner.nextLine() + " | ";                    
+            //     }
+            //     scanner.close();
+            //     scrapedDataLabel.setText(scrapedDataString);
+            // } catch (FileNotFoundException e1) {
+            //     e1.printStackTrace();
+            // }
         });
 
         

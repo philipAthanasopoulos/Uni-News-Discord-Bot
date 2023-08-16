@@ -10,6 +10,7 @@ package scraper;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
@@ -123,5 +124,26 @@ public class Scraper implements IScraper {
         for(String site : map.keySet()) scrapeTagFromSite(site, map.get(site));
 
     }
+
+   @Override
+public String summarizeScrapedData() {
+    String result = "";
+    try {
+        String path = System.getProperty("user.dir") + "/demo/src/main/python/summarizer/summarizer.py";
+        String[] command = {"python3", path};
+        Process process = Runtime.getRuntime().exec(command);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+            result += line + "\n";
+        }
+        process.waitFor();
+        reader.close();
+    } catch (IOException | InterruptedException e) {
+        e.printStackTrace();
+    }
+    return result;
+}
     
 }

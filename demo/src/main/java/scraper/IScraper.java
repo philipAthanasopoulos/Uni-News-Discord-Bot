@@ -30,4 +30,12 @@ public interface IScraper {
      * @param tags the HTML tags to scrape
      */
     void scrapeTagFromSite(List<String> sites, List<String> tags);
+
+    /**
+     * Summarize the scraped data and return a string containing the summary
+     * 
+     * @return the summary of the scraped data
+     * @throws Exception if no scraped data is available
+     */
+    String summarizeScrapedData() throws Exception;
 }
