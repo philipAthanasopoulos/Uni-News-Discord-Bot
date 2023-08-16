@@ -1,4 +1,4 @@
 app\App.class
+app\App$1.class
 scraper\IScraper.class
-summarizer\Summarizer.class
 scraper\Scraper.class

@@ -127,6 +127,7 @@ public class Scraper implements IScraper {
 
    @Override
 public String summarizeScrapedData() {
+    System.out.println("Summarizing scraped data...");
     String result = "";
     try {
         String path = System.getProperty("user.dir") + "/demo/src/main/python/summarizer/summarizer.py";
@@ -143,6 +144,7 @@ public String summarizeScrapedData() {
     } catch (IOException | InterruptedException e) {
         e.printStackTrace();
     }
+    System.out.println(green + "Summary complete!" + reset);
     return result;
 }
     
