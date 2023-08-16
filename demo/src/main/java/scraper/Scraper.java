@@ -19,19 +19,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import app.resources.UnicodeColors;
+
 
 public class Scraper implements IScraper {
-    //color codes for console output
-    String green = "\u001B[32m";
-    String red = "\u001B[31m";
-    String reset = "\u001B[0m";
 
     public Scraper(){
+        System.out.println("Scraper initialized!");
     }
     
     @Override
@@ -65,22 +65,8 @@ public class Scraper implements IScraper {
             }
         
             // Create a file object to save the results
-            /*
-             * Will implement in the future
-             */
-            // String siteName = site.replace("https://", "")
-            //                         .replace("http://", "")
-            //                         .replace("www", "")
-            //                         .replace("/", "")
-            //                         .replace(".", "")
-            //                         .replace("?", "")
-            //                         .replace("=", "")
-            //                         .replace("&", "")
-            //                         .replace(":", "");
-            // String path = System.getProperty("user.dir") + "/demo/src/main/java/app/outputs/" + siteName + ".txt";
             String path = System.getProperty("user.dir") + "/demo/src/main/java/app/outputs/" + "output.txt";
             File file = new File(path);      
-            
             
             // Write the results to the file
             System.out.println("Saving results to " + file.getAbsolutePath());          
@@ -90,18 +76,18 @@ public class Scraper implements IScraper {
             }
             writer.close();
             
-            //check if file is empty
+            // Check if file is empty
             if(!(file.length() > 0)) {
                 file.delete();
                 throw new Exception("No results found!");
             } 
             
-            System.out.println(green + "Scrape complete!" + reset);
+            System.out.println( UnicodeColors.green + "Scrape complete!" + UnicodeColors.reset);
             return file;
             
         } catch (Exception e) {
             // TODO: handle exception
-            System.out.println("Error: " + red + e + reset);
+            System.out.println("Error: " + UnicodeColors.red + e + UnicodeColors.reset);
             return null;
         }
     }
@@ -117,35 +103,33 @@ public class Scraper implements IScraper {
 
     @Override
     public void scrapeTagFromSite(List<String> sites , List<String> tags) {
-        //key = site , value = tag
+        // key = site , value = tag
         Map<String , String> map = new HashMap<String , String>();
         for(int i = 0 ; i < sites.size() ; i++) map.put(sites.get(i), tags.get(i));
 
         for(String site : map.keySet()) scrapeTagFromSite(site, map.get(site));
-
     }
 
-   @Override
-public String summarizeScrapedData() {
-    System.out.println("Summarizing scraped data...");
-    String result = "";
-    try {
-        String path = System.getProperty("user.dir") + "/demo/src/main/python/summarizer/summarizer.py";
-        String[] command = {"python3", path};
-        Process process = Runtime.getRuntime().exec(command);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            System.out.println(line);
-            result += line + "\n";
+    @Override
+    public String summarizeScrapedData() {
+        System.out.println("Summarizing scraped data...");
+        String result = "";
+        try {
+            String path = System.getProperty("user.dir") + "/demo/src/main/python/summarizer/summarizer.py";
+            String[] command = {"python3", path};
+            Process process = Runtime.getRuntime().exec(command);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+                result += line + "\n";
+            }
+            process.waitFor();
+            reader.close();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
         }
-        process.waitFor();
-        reader.close();
-    } catch (IOException | InterruptedException e) {
-        e.printStackTrace();
-    }
-    System.out.println(green + "Summary complete!" + reset);
-    return result;
-}
-    
+        System.out.println(UnicodeColors.green + "Summary complete!" + UnicodeColors.reset);
+        return result;
+    }  
 }
