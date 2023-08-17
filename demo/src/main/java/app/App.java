@@ -41,6 +41,8 @@ public class App extends Application {
         // Submit button
         Button submitButton = new Button("Search");
         submitButton.getStyleClass().add("search-button");
+
+        // Scraped results
         Label scrapedDataLabel = new Label("Scraped data will appear here");
         scrapedDataLabel.getStyleClass().add("scraped-data-label");
 

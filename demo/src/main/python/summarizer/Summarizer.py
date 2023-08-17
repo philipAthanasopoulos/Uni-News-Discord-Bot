@@ -38,9 +38,12 @@ def summarize_text():
 
     # Combine extracted and compressed sentences into summary
     summary = ' '.join(str(sentence) for sentence in summary)
-    print(summary)
 
-# Main
+    # Save summary to file called summary.txt
+    path = os.path.join(os.path.dirname(__file__), '..\\..\\java\\app\\outputs\\summary.txt')
+    with open(path, 'w' , encoding = 'utf-8') as file:
+        file.write(summary)
+
 summarize_text()
 
 

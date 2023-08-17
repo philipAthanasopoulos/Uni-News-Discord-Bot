@@ -2,6 +2,7 @@ package scraper;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,7 +26,7 @@ import app.resources.UnicodeColors;
  * This class implements the IScraper interface and provides methods to scrape HTML tags from websites.
  * It uses the Jsoup library to parse HTML and extract the text from the specified tag.
  * The scraped data is saved to a file in the specified directory.
- * The class provides three methods to scrape tags from a single website, multiple websites, and multiple websites with multiple tags.
+ * The class provides methods to scrape tags from a single website, multiple websites, and multiple websites with multiple tags.
  * The class also includes color codes for console output to indicate success or failure of the scraping process.
  * 
  * @author Philip Athanasopoulos
@@ -114,24 +116,29 @@ public class Scraper implements IScraper {
 
     @Override
     public String summarizeScrapedData() {
-        System.out.println("Summarizing scraped data...");
-        String result = "";
+        System.out.println(UnicodeColors.yellow + "Summarizing scraped data..." + UnicodeColors.reset);
+        String summary = "";
         try {
             String path = System.getProperty("user.dir") + "/demo/src/main/python/summarizer/summarizer.py";
-            String[] command = {"python3", path};
+            String[] command = {"python", path};
             Process process = Runtime.getRuntime().exec(command);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-                result += line + "\n";
-            }
+            // BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            // String line;
+            // while ((line = reader.readLine()) != null) {
+            //     System.out.println(line);
+            //     result += line + "\n";
+            // }
             process.waitFor();
-            reader.close();
+            // reader.close();
+            File summaryFile = new File(System.getProperty("user.dir") + "/demo/src/main/java/app/outputs/summary.txt");
+            Scanner scanner = new Scanner(summaryFile);
+            while(scanner.hasNextLine()){
+                summary += scanner.nextLine() + "\n";
+            }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
         System.out.println(UnicodeColors.green + "Summary complete!" + UnicodeColors.reset);
-        return result;
+        return summary;
     }  
 }
