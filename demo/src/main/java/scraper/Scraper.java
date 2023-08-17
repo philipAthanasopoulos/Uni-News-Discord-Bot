@@ -2,7 +2,6 @@ package scraper;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -135,6 +134,7 @@ public class Scraper implements IScraper {
             while(scanner.hasNextLine()){
                 summary += scanner.nextLine() + "\n";
             }
+            scanner.close();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
