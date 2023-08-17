@@ -39,8 +39,8 @@ public class App extends Application {
         tagLabelInput.setPromptText("e.g. h1");
 
         // Submit button
-        Button submitButton = new Button("Submit");
-        submitButton.getStyleClass().add("submit-button");
+        Button submitButton = new Button("Search");
+        submitButton.getStyleClass().add("search-button");
         Label scrapedDataLabel = new Label("Scraped data will appear here");
         scrapedDataLabel.getStyleClass().add("scraped-data-label");
 

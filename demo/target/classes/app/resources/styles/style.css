@@ -14,9 +14,17 @@
     -fx-pref-height: 40px;
     -fx-background-color: #fff;
     -fx-border-color: #ccc;
-    -fx-border-radius: 5px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
     -fx-border-width: 1px;
     -fx-padding: 5px;
+}
+
+/* Style for active site input */
+.site-input:focused {
+    -fx-border-color: #f39004;
+    -fx-border-width: 2px;
+    -fx-background-color: #faf3de;
 }
 
 /* Style the tag label */
@@ -28,22 +36,29 @@
 
 /* Style the tag input field */
 .tag-input {
-    
-    -fx-font-size: 16px;
-    -fx-pref-width: 300px;
+    -fx-font-size: 20px;
+    -fx-pref-width: 20px;
     -fx-pref-height: 40px;
     -fx-background-color: #fff;
     -fx-border-color: #ccc;
-    -fx-border-radius: 5px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
     -fx-border-width: 1px;
     -fx-padding: 5px;
 }
 
+/* Style for active site input */
+.tag-input:focused {
+    -fx-border-color: #f39004;
+    -fx-border-width: 2px;
+    -fx-background-color: #faf3de;
+}
+
 /* Style the submit button */
-.submit-button {
-    -fx-font-size: 16px;
+.search-button {
+    -fx-font-size: 20px;
     -fx-width: 100px;
-    -fx-pref-height: 40px;
+    -fx-height: 40px;
     -fx-background-color: #f39004;
     -fx-text-fill: #fff;
     -fx-border-radius: 100px;
@@ -52,7 +67,7 @@
     -fx-padding: 5px;
 }
 
-.submit-button:hover {
+.search-button:hover {
     -fx-background-color: #de8405;
 }
 
@@ -60,7 +75,7 @@
 
 /* Style the scraped data label */
 .scraped-data-label {
-    -fx-font-size: 16px;
+    -fx-font-size: 20px;
     -fx-text-fill: #333;
     -fx-padding: 10px;
     -fx-background-color: #ffffff;
