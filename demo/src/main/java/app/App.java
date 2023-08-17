@@ -1,5 +1,6 @@
 package app;
 
+import javafx.scene.input.KeyCode;
 import scraper.Scraper;
 
 import javafx.application.Application;
@@ -10,6 +11,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.util.Objects;
+
+import app.resources.UnicodeColors;
 
 public class App extends Application {
 
@@ -25,7 +30,7 @@ public class App extends Application {
         primaryStage.setMinHeight(600);
 
         // Site link input
-        Label siteLabel = new Label("Enter a site to scrape:");
+        Label siteLabel = new Label("Enter a site to scrape:" + UnicodeColors.fireEmoji);
         siteLabel.getStyleClass().add("site-label");
         TextField siteLabelInput = new TextField();
         siteLabelInput.getStyleClass().add("site-input");
@@ -46,6 +51,8 @@ public class App extends Application {
         Label scrapedDataLabel = new Label("Scraped data will appear here");
         scrapedDataLabel.getStyleClass().add("scraped-data-label");
 
+        
+
         // Layout with all elements
         VBox layout = new VBox();
         layout.getStyleClass().add("vbox");
@@ -64,12 +71,8 @@ public class App extends Application {
 
         // If ENTER is pressed execute submit button action
         layout.setOnKeyPressed(e -> {
-            switch (e.getCode()) {
-                case ENTER:
-                    submitButton.fire();
-                    break;
-                default:
-                    break;
+            if (Objects.requireNonNull(e.getCode()) == KeyCode.ENTER) {
+                submitButton.fire();
             }
         });
 

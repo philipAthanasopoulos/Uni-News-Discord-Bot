@@ -70,7 +70,7 @@ public class Scraper implements IScraper {
         
             // Create a file object to save the results
             String path = System.getProperty("user.dir") + "/demo/src/main/java/app/outputs/" + "output.txt";
-            File file = new File(path);      
+            File file = new File(path);
             
             // Write the results to the file
             System.out.println("Saving results to " + file.getAbsolutePath());          
@@ -82,7 +82,7 @@ public class Scraper implements IScraper {
             
             // Check if file is empty
             if(!(file.length() > 0)) {
-                file.delete();
+                writer.write("No results found!");
                 throw new Exception("No results found!");
             } 
             

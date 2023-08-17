@@ -31,4 +31,6 @@ public class UnicodeColors {
     public final static String italicOff = "\u001B[23m";
     public final static String underlineOff = "\u001B[24m";
     public final static String strikeOff = "\u001B[29m";
+
+    public final static String fireEmoji = "\uD83D\uDD25";
 }
