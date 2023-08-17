@@ -62,7 +62,7 @@ public class Scraper implements IScraper {
             // Parse the HTML and extract the text
             Document doc = Jsoup.parse(builder.toString());
             Elements links = doc.select(tag);
-            List<String> titles = new ArrayList<String>();
+            List<String> titles = new ArrayList<>();
             for (Element link : links) {
                 titles.add(link.text());
             }
@@ -97,7 +97,7 @@ public class Scraper implements IScraper {
 
     @Override
     public List<File> scrapeTagFromSite(List<String> sites , String tag) {
-        List<File> results = new ArrayList<File>();
+        List<File> results = new ArrayList<>();
         for(String site : sites){
             results.add(scrapeTagFromSite(site, tag)) ;
         } 
@@ -107,7 +107,7 @@ public class Scraper implements IScraper {
     @Override
     public void scrapeTagFromSite(List<String> sites , List<String> tags) {
         // key = site , value = tag
-        Map<String , String> map = new HashMap<String , String>();
+        Map<String , String> map = new HashMap<>();
         for(int i = 0 ; i < sites.size() ; i++) map.put(sites.get(i), tags.get(i));
 
         for(String site : map.keySet()) scrapeTagFromSite(site, map.get(site));
@@ -121,14 +121,7 @@ public class Scraper implements IScraper {
             String path = System.getProperty("user.dir") + "/demo/src/main/python/summarizer/summarizer.py";
             String[] command = {"python", path};
             Process process = Runtime.getRuntime().exec(command);
-            // BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            // String line;
-            // while ((line = reader.readLine()) != null) {
-            //     System.out.println(line);
-            //     result += line + "\n";
-            // }
             process.waitFor();
-            // reader.close();
             File summaryFile = new File(System.getProperty("user.dir") + "/demo/src/main/java/app/outputs/summary.txt");
             Scanner scanner = new Scanner(summaryFile);
             while(scanner.hasNextLine()){
@@ -136,9 +129,11 @@ public class Scraper implements IScraper {
             }
             scanner.close();
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Error: " + UnicodeColors.red + e + UnicodeColors.reset);
         }
         System.out.println(UnicodeColors.green + "Summary complete!" + UnicodeColors.reset);
         return summary;
-    }  
+    }
+
+
 }
