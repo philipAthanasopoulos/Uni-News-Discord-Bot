@@ -10,7 +10,8 @@ import java.util.Set;
  * Interface for the Scraper class , which scrapes data from a site using the Jsoup library(@see documentaion).
  * 
  * @author Philip Athanasopoulos
- * @since 16-08-2023 
+ * @since 16-08-2023
+ * <br>
  *        MM-DD-YYYY
  */
 
@@ -45,9 +46,9 @@ public interface IScraper {
     void scrapeTagFromSite(List<String> sites, List<String> tags);
 
     /**
-     * @param doc
-     * @param tag
-     * @return
+     * @param doc Document to scrape
+     * @param tag to scrape from given document
+     * @return the extracted text from the given tag
      */
     String scrapeTagFromDocument(Document doc , String tag);
 
@@ -61,14 +62,14 @@ public interface IScraper {
 
     /**
      * Returns a list of the tags that have been scraped
-     *
-     * @return a list of the tags that have been scraped
+     * @param doc the document to scrape
+     * @return a set of the tags that have been scraped
      */
     Set<String> getListOfTags(Document doc);
 
     /**
-     * @param doc
-     * @return
+     * @param doc the document to scrape
+     * @return a set of the classes that have been scraped
      */
     Set<String> getListOfClasses(Document doc);
 }

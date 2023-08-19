@@ -2,7 +2,6 @@ package app;
 
 import scraper.Scraper;
 
-import javafx.scene.input.KeyCode;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -16,18 +15,16 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 
 import org.jsoup.nodes.Document;
 
-import app.resources.UnicodeColors;
 
 public class App extends Application {
     
     private Document globalDocument = new Document("");
-    private Scraper scraper = new Scraper();
+    private final Scraper scraper = new Scraper();
 
     @Override
     public void start(Stage primaryStage) {
@@ -123,19 +120,6 @@ public class App extends Application {
         // Add logo
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("resources/img/logo.png")));
         scrapeDocumentButton.requestFocus();
-    }
-
-    
-
-    
-    
-    
-    public Document getDoc() {
-        return globalDocument;
-    }
-    
-    public void setDoc(Document doc) {
-        this.globalDocument = doc;
     }
 
     public static void main(String[] args) {
