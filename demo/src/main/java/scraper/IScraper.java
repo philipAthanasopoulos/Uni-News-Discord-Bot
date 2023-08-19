@@ -1,7 +1,10 @@
 package scraper;
 
+import org.jsoup.nodes.Document;
+
 import java.io.File;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Interface for the Scraper class , which scrapes data from a site using the Jsoup library(@see documentaion).
@@ -12,6 +15,8 @@ import java.util.List;
  */
 
 public interface IScraper {
+    Document scrapeSite(String link);
+
     /**
      * Scrapes a tag from a site and return the new file containing the scraped data
      * 
@@ -40,10 +45,30 @@ public interface IScraper {
     void scrapeTagFromSite(List<String> sites, List<String> tags);
 
     /**
+     * @param doc
+     * @param tag
+     * @return
+     */
+    String scrapeTagFromDocument(Document doc , String tag);
+
+    /**
      * Summarizes the scraped data. Composes a string containing the summary
      * 
      * @return a string with the summary of the scraped data
      * @throws Exception if no scraped data is available
      */
     String summarizeScrapedData() throws Exception;
+
+    /**
+     * Returns a list of the tags that have been scraped
+     *
+     * @return a list of the tags that have been scraped
+     */
+    Set<String> getListOfTags(Document doc);
+
+    /**
+     * @param doc
+     * @return
+     */
+    Set<String> getListOfClasses(Document doc);
 }

@@ -8,11 +8,7 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -36,20 +32,18 @@ public class Scraper implements IScraper {
     public Scraper(){
         System.out.println("Scraper initialized!");
     }
-    
+
     @Override
-    public File scrapeTagFromSite(String site, String tag) {
-        
+    public Document scrapeSite(String link) {
+        Document doc = null;
         try {
-            System.out.println("Scraping "+ site + " ...");
-        
             // Create a URL object for the website you want to scrape
-            URI uri = URI.create(site);
+            URI uri = URI.create(link);
             URL url = uri.toURL();
-            
+
             // Open a connection to the URL and send an HTTP request
             URLConnection connection = url.openConnection();
-        
+
             // Read the HTML response from the connection
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder builder = new StringBuilder();
@@ -58,9 +52,27 @@ public class Scraper implements IScraper {
                 builder.append(line);
             }
             reader.close();
-        
+
             // Parse the HTML and extract the text
-            Document doc = Jsoup.parse(builder.toString());
+            doc = Jsoup.parse(builder.toString());
+        }
+        catch (Exception e) {
+            System.out.println("Error: " + UnicodeColors.red + e + UnicodeColors.reset);
+        }
+        return doc;
+
+    }
+    
+    @Override
+    public File scrapeTagFromSite(String site, String tag) {
+        
+        try {
+            Document doc = scrapeSite(site);
+            Set<String> tags = getListOfTags(doc);
+            Set<String> classes = getListOfClasses(doc);
+            for(String each: tags) System.out.println(each);
+            for(String each: classes) System.out.println(each);
+
             Elements links = doc.select(tag);
             List<String> titles = new ArrayList<>();
             for (Element link : links) {
@@ -100,7 +112,7 @@ public class Scraper implements IScraper {
         List<File> results = new ArrayList<>();
         for(String site : sites){
             results.add(scrapeTagFromSite(site, tag)) ;
-        } 
+        }
         return results;
     }
 
@@ -114,6 +126,18 @@ public class Scraper implements IScraper {
     }
 
     @Override
+    public String scrapeTagFromDocument(Document doc, String tag) {
+        Elements links = doc.select(tag);
+        List<String> titles = new ArrayList<>();
+        for (Element link : links) {
+            titles.add(link.text());
+        }
+        String result = "";
+        for(String title : titles) result += title + "\n";
+        return result;
+    }
+
+    @Override
     public String summarizeScrapedData() {
         System.out.println(UnicodeColors.yellow + "Summarizing scraped data..." + UnicodeColors.reset);
         String summary = "";
@@ -124,15 +148,29 @@ public class Scraper implements IScraper {
             process.waitFor();
             File summaryFile = new File(System.getProperty("user.dir") + "/demo/src/main/java/app/outputs/summary.txt");
             Scanner scanner = new Scanner(summaryFile);
-            while(scanner.hasNextLine()){
-                summary += scanner.nextLine() + "\n";
-            }
+            while(scanner.hasNextLine()) summary += scanner.nextLine() + "\n";
             scanner.close();
         } catch (IOException | InterruptedException e) {
             System.out.println("Error: " + UnicodeColors.red + e + UnicodeColors.reset);
         }
         System.out.println(UnicodeColors.green + "Summary complete!" + UnicodeColors.reset);
         return summary;
+    }
+
+    @Override
+    public Set<String> getListOfTags(Document doc) {
+        Set<String> tags = new HashSet<>();
+        Elements elements = doc.getAllElements();
+        for(Element element : elements) tags.add(element.tagName());
+        return tags;
+    }
+
+    @Override
+    public Set<String> getListOfClasses(Document doc) {
+        Set<String> classes = new HashSet<>();
+        Elements elements = doc.getAllElements();
+        for(Element element : elements) classes.add("." + element.className()); // Classes should start with a dot
+        return classes;
     }
 
 

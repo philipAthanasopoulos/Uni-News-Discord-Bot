@@ -55,7 +55,7 @@
 }
 
 /* Style the submit button */
-.search-button {
+.button {
     -fx-font-size: 20px;
     -fx-width: 100px;
     -fx-height: 40px;
@@ -67,7 +67,7 @@
     -fx-padding: 5px;
 }
 
-.search-button:hover {
+.button:hover {
     -fx-background-color: #de8405;
 }
 
@@ -89,6 +89,16 @@
     -fx-background-color: #fff;
     -fx-spacing: 20px;
     -fx-padding: 20px;
+}
+
+.dropdown {
+    -fx-background-color: #fff;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 10px;
+    -fx-border-width: 1px;
+    -fx-padding: 5px;
+    -fx-font-size: 20px;
+    -fx-cursor: hand;
 }
 
 *{
