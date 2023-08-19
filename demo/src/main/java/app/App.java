@@ -88,10 +88,8 @@ public class App extends Application {
             String siteLink = siteLabelInput.getText();
             globalDocument = scraper.scrapeSite(siteLink);
             Set<String> tagsAndClasses = new TreeSet<>();
-
-            scraper.getListOfTags(globalDocument).forEach(tag -> tagsAndClasses.add(tag));
-
-            scraper.getListOfClasses(globalDocument).forEach(each -> tagsAndClasses.add(each));
+            scraper.getListOfTags(globalDocument).forEach(htmlTag -> tagsAndClasses.add(htmlTag));
+            scraper.getListOfClasses(globalDocument).forEach(htmlClass -> tagsAndClasses.add(htmlClass));
 
             //add them to the dropdown
             dropdown.getItems().clear();
