@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 
 import java.util.HashSet;
 import java.util.Set;
-
+import java.util.TreeSet;
 
 import org.jsoup.nodes.Document;
 
@@ -87,9 +87,12 @@ public class App extends Application {
 
             String siteLink = siteLabelInput.getText();
             globalDocument = scraper.scrapeSite(siteLink);
-            Set<String> tagsAndClasses = new HashSet<>();
-            tagsAndClasses.addAll(scraper.getListOfTags(globalDocument));
-            tagsAndClasses.addAll(scraper.getListOfClasses(globalDocument));
+            Set<String> tagsAndClasses = new TreeSet<>();
+
+            scraper.getListOfTags(globalDocument).forEach(tag -> tagsAndClasses.add(tag));
+
+            scraper.getListOfClasses(globalDocument).forEach(each -> tagsAndClasses.add(each));
+
             //add them to the dropdown
             dropdown.getItems().clear();
             dropdown.getItems().addAll(tagsAndClasses);

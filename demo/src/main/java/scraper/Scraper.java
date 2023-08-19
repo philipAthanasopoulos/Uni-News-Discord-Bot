@@ -159,7 +159,7 @@ public class Scraper implements IScraper {
 
     @Override
     public Set<String> getListOfTags(Document doc) {
-        Set<String> tags = new HashSet<>();
+        Set<String> tags = new TreeSet<String>();
         Elements elements = doc.getAllElements();
         for(Element element : elements) tags.add(element.tagName());
         return tags;
@@ -167,7 +167,7 @@ public class Scraper implements IScraper {
 
     @Override
     public Set<String> getListOfClasses(Document doc) {
-        Set<String> classes = new HashSet<>();
+        Set<String> classes = new TreeSet<>();
         Elements elements = doc.getAllElements();
         for(Element element : elements) classes.add("." + element.className()); // Classes should start with a dot
         return classes;
