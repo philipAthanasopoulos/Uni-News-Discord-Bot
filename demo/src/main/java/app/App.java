@@ -14,7 +14,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
