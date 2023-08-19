@@ -34,7 +34,7 @@ def summarize_text():
     parser = PlaintextParser.from_string(text, Tokenizer('english'))
     summarizer = TextRankSummarizer()
     summarizer.stop_words = get_stop_words('english')
-    summary = summarizer(parser.document, sentences_count=3)
+    summary = summarizer(parser.document, sentences_count = 3)
 
     # Combine extracted and compressed sentences into summary
     summary = ' '.join(str(sentence) for sentence in summary)

@@ -10,9 +10,8 @@ import java.util.Set;
  * Interface for the Scraper class , which scrapes data from a site using the Jsoup library(@see documentaion).
  * 
  * @author Philip Athanasopoulos
- * @since 16-08-2023
- * <br>
- *        MM-DD-YYYY
+ * @since 16-08-2023 (MM-DD-YYYY)
+        
  */
 
 public interface IScraper {

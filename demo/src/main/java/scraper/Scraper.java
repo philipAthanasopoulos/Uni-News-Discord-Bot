@@ -60,7 +60,6 @@ public class Scraper implements IScraper {
             System.out.println("Error: " + UnicodeColors.red + e + UnicodeColors.reset);
         }
         return doc;
-
     }
     
     @Override
