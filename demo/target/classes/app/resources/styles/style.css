@@ -61,7 +61,8 @@
     -fx-height: 40px;
     -fx-background-color: #f39004;
     -fx-text-fill: #fff;
-    -fx-border-radius: 100px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
     -fx-border-width: 0px;
     -fx-cursor: hand;
     -fx-padding: 5px;
