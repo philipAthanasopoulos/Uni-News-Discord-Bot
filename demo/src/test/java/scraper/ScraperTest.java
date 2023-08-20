@@ -1,6 +1,6 @@
 package scraper;
 
-import app.resources.UnicodeColors;
+import app.resources.Unicodes;
 
 import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.Assertions;
@@ -29,8 +29,18 @@ public class ScraperTest {
         links.add("https://www.reddit.com");
 
         for (String linkToTest: links) {
-            Assertions.assertNotNull(scraper.scrapeSite(linkToTest), UnicodeColors.red + "Failed to scrape " + linkToTest + UnicodeColors.reset);
+            Assertions.assertNotNull(scraper.scrapeSite(linkToTest), Unicodes.red + "Failed to scrape " + linkToTest + Unicodes.reset);
         }
+    }
+
+    @Test
+    public void scrapeTagFromDocumentTest() {
+        String link = "https://www.example.com";
+        Document doc = scraper.scrapeSite(link);
+        String tag = "title";
+        String expectedText = "Example Domain" + "\n";
+        String actualText = scraper.scrapeTagFromDocument(doc, tag);
+        Assertions.assertEquals(expectedText, actualText);
     }
 
     @Test

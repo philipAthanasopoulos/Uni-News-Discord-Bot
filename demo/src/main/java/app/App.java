@@ -70,6 +70,7 @@ public class App extends Application {
         Label scrapedDataLabel = new Label();
         scrapedDataLabel.getStyleClass().add("scraped-data-label");
         
+        // Save button
         Button saveButton = new Button("Save " + Unicodes.saveEmoji);
         saveButton.getStyleClass().add("button");
         saveButton.setDisable(true);
@@ -83,7 +84,7 @@ public class App extends Application {
         // Submit button action
         scrapeDocumentButton.setOnAction(e -> {
             if(siteLabelInput.getText().isEmpty()) {
-                //alert the user to enter a site
+                // Alert the user to enter a site
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("Wrong input");
                 alert.setHeaderText("Please enter a valid site URL");

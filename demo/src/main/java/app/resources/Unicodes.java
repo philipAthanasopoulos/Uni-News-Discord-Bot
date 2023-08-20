@@ -1,7 +1,7 @@
 package app.resources;
 
 public class Unicodes{
-    // Unicode text colors
+    // Text colors
     public final static String reset = "\u001B[0m";
     public final static String black = "\u001B[30m";
     public final static String red = "\u001B[31m";
@@ -12,7 +12,7 @@ public class Unicodes{
     public final static String cyan = "\u001B[36m";
     public final static String white = "\u001B[37m";
 
-    // Unicode background colors
+    // Background colors
     public final static String blackBackground = "\u001B[40m";
     public final static String redBackground = "\u001B[41m";
     public final static String greenBackground = "\u001B[42m";
@@ -22,7 +22,7 @@ public class Unicodes{
     public final static String cyanBackground = "\u001B[46m";
     public final static String whiteBackground = "\u001B[47m";
 
-    // Unicode text styles
+    // Text styles
     public final static String bold = "\u001B[1m";
     public final static String italic = "\u001B[3m";
     public final static String underline = "\u001B[4m";
@@ -32,6 +32,7 @@ public class Unicodes{
     public final static String underlineOff = "\u001B[24m";
     public final static String strikeOff = "\u001B[29m";
 
+    // Emojis
     public final static String fireEmoji = "\uD83D\uDD25";
     public final static String saveEmoji = "\uD83D\uDCBE";
     public final static String magnifyingGlassEmoji = "\uD83D\uDD0D";
