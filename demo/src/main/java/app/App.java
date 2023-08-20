@@ -19,6 +19,8 @@ import java.util.TreeSet;
 
 import org.jsoup.nodes.Document;
 
+import app.resources.Unicodes;
+
 
 public class App extends Application {
     
@@ -44,14 +46,14 @@ public class App extends Application {
         siteLabelInput.setPromptText("e.g. https://www.example.com");
 
         // Scrape button    
-        Button scrapeDocumentButton = new Button("Scrape");
+        Button scrapeDocumentButton = new Button("Scrape site " + Unicodes.magnifyingGlassEmoji);
         scrapeDocumentButton.getStyleClass().add("button");
 
         // HTML tag dropdown menu
         ComboBox<String> dropdown = new ComboBox<>();
         dropdown.getStyleClass().add("dropdown");
-        dropdown.getItems().addAll("a", "h1", "h6");
         dropdown.setPromptText("Select a tag");
+        dropdown.setDisable(true);
 
         // Add an event listener to the dropdown
         dropdown.setOnAction(e -> {
@@ -60,15 +62,17 @@ public class App extends Application {
         });
         
         // Submit button
-        Button scrapeTagButton = new Button("Scrape specific tag");
+        Button scrapeTagButton = new Button("Scrape specific tag " + Unicodes.htmlTagEmoji);
         scrapeTagButton.getStyleClass().add("button");
+        scrapeTagButton.setDisable(true);
 
         // Scraped results
         Label scrapedDataLabel = new Label();
         scrapedDataLabel.getStyleClass().add("scraped-data-label");
         
-        Button saveButton = new Button("Save");
+        Button saveButton = new Button("Save " + Unicodes.saveEmoji);
         saveButton.getStyleClass().add("button");
+        saveButton.setDisable(true);
 
         // Layout with all elements
         VBox layout = new VBox();
@@ -96,6 +100,10 @@ public class App extends Application {
             //add them to the dropdown
             dropdown.getItems().clear();
             dropdown.getItems().addAll(tagsAndClasses);
+
+            //enable the dropdown and the submit button
+            dropdown.setDisable(false);
+            scrapeTagButton.setDisable(false);
         });
 
         scrapeTagButton.setOnAction(e -> {
@@ -110,6 +118,7 @@ public class App extends Application {
             String tag = dropdown.getValue();
             String result = scraper.scrapeTagFromDocument(globalDocument, tag);
             scrapedDataLabel.setText(result);
+            saveButton.setDisable(false);
         });
 
         saveButton.setOnAction( e-> {
@@ -127,24 +136,6 @@ public class App extends Application {
                 alert.showAndWait();
             }
         });
-
-        //Visiblity of save button
-        saveButton.setVisible(false);
-        scrapedDataLabel.textProperty().addListener((observable, oldValue, newValue) -> {
-            switch(newValue) {
-                case "Scraped text will appear here":
-                    saveButton.setVisible(false);
-                    break;
-                case "":
-                    saveButton.setVisible(false);
-                    break;
-                default:
-                    saveButton.setVisible(true);
-                    break;
-            }
-        });
-
-        
 
         // Add layout to scene
         Scene scene = new Scene(layout, 600, 600);

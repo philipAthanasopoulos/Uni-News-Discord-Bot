@@ -1,6 +1,6 @@
 package app.resources;
 
-public class UnicodeColors {
+public class Unicodes{
     // Unicode text colors
     public final static String reset = "\u001B[0m";
     public final static String black = "\u001B[30m";
@@ -33,4 +33,8 @@ public class UnicodeColors {
     public final static String strikeOff = "\u001B[29m";
 
     public final static String fireEmoji = "\uD83D\uDD25";
+    public final static String saveEmoji = "\uD83D\uDCBE";
+    public final static String magnifyingGlassEmoji = "\uD83D\uDD0D";
+    public final static String codeEmoji = "\uD83D\uDDA5";
+    public final static String htmlTagEmoji = "\uD83D\uDDC4";
 }

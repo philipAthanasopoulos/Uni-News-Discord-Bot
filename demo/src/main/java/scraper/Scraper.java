@@ -15,7 +15,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import app.resources.UnicodeColors;
+import app.resources.Unicodes;
 import javafx.stage.FileChooser;
 
 /**
@@ -58,7 +58,7 @@ public class Scraper implements IScraper {
             doc = Jsoup.parse(builder.toString());
         }
         catch (Exception e) {
-            System.out.println("Error: " + UnicodeColors.red + e + UnicodeColors.reset);
+            System.out.println("Error: " + Unicodes.red + e + Unicodes.reset);
         }
         return doc;
     }
@@ -78,7 +78,7 @@ public class Scraper implements IScraper {
 
     @Override
     public String summarizeScrapedData() {
-        System.out.println(UnicodeColors.yellow + "Summarizing scraped data..." + UnicodeColors.reset);
+        System.out.println(Unicodes.yellow + "Summarizing scraped data..." + Unicodes.reset);
         String summary = "";
         try {
             String path = System.getProperty("user.dir") + "/demo/src/main/python/summarizer/summarizer.py";
@@ -90,9 +90,9 @@ public class Scraper implements IScraper {
             while(scanner.hasNextLine()) summary += scanner.nextLine() + "\n";
             scanner.close();
         } catch (IOException | InterruptedException e) {
-            System.out.println("Error: " + UnicodeColors.red + e + UnicodeColors.reset);
+            System.out.println("Error: " + Unicodes.red + e + Unicodes.reset);
         }
-        System.out.println(UnicodeColors.green + "Summary complete!" + UnicodeColors.reset);
+        System.out.println(Unicodes.green + "Summary complete!" + Unicodes.reset);
         return summary;
     }
 
@@ -127,7 +127,7 @@ public class Scraper implements IScraper {
                 writer.close();
                 return true;
               } catch (IOException e) {
-                System.out.println("Error: " + UnicodeColors.red + e + UnicodeColors.reset);
+                System.out.println("Error: " + Unicodes.red + e + Unicodes.reset);
                 return false;
               }
          } else {
