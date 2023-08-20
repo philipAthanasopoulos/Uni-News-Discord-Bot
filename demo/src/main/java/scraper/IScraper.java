@@ -1,9 +1,6 @@
 package scraper;
 
 import org.jsoup.nodes.Document;
-
-import java.io.File;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -16,33 +13,6 @@ import java.util.Set;
 
 public interface IScraper {
     Document scrapeSite(String link);
-
-    /**
-     * Scrapes a tag from a site and return the new file containing the scraped data
-     * 
-     * @param site the URL of the site to scrape
-     * @param tag the HTML tag to scrape
-     * @return the file containing the scraped data
-     */
-    File scrapeTagFromSite(String site, String tag);
-
-    /**
-     * Scrapes a tag from multiple sites and return a list of files each containing the scraped data from each site
-     * 
-     * @param sites the URLs of the sites to scrape
-     * @param tag the HTML tag to scrape
-     * @return a list of files containing the scraped data from each site
-     */
-    List<File> scrapeTagFromSite(List<String> sites, String tag);
-
-    /**
-     * Scrapes multiple tags from multiple sites and return a list of files each containing the scraped data from each site
-     * 
-     * @param sites the URLs of the sites to scrape
-     * @param tags the HTML tags to scrape
-     * @return a list of files containing the scraped data from each site
-     */
-    void scrapeTagFromSite(List<String> sites, List<String> tags);
 
     /**
      * @param doc Document to scrape

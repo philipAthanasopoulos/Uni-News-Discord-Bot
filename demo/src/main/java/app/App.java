@@ -22,7 +22,7 @@ import org.jsoup.nodes.Document;
 
 public class App extends Application {
     
-    private Document globalDocument = new Document("");
+    private Document globalDocument = null;
     private final Scraper scraper = new Scraper();
 
     @Override
@@ -64,14 +64,17 @@ public class App extends Application {
         scrapeTagButton.getStyleClass().add("button");
 
         // Scraped results
-        Label scrapedDataLabel = new Label("Scraped data will appear here");
+        Label scrapedDataLabel = new Label();
         scrapedDataLabel.getStyleClass().add("scraped-data-label");
+        
+        Button saveButton = new Button("Save");
+        saveButton.getStyleClass().add("button");
 
         // Layout with all elements
         VBox layout = new VBox();
         layout.getStyleClass().add("vbox");
         layout.getChildren().addAll(siteLabel, siteLabelInput, scrapeDocumentButton, dropdown,
-                                    scrapeTagButton, scrapedDataLabel);
+                                    scrapeTagButton, saveButton, scrapedDataLabel);
 
         // Submit button action
         scrapeDocumentButton.setOnAction(e -> {
@@ -107,6 +110,38 @@ public class App extends Application {
             String tag = dropdown.getValue();
             String result = scraper.scrapeTagFromDocument(globalDocument, tag);
             scrapedDataLabel.setText(result);
+        });
+
+        saveButton.setOnAction( e-> {
+            String textToSave = scrapedDataLabel.getText();
+            boolean save = scraper.saveScrapedText(textToSave);
+            if(save) {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setHeaderText("Document saved successfully");
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Document could not be saved");
+                alert.showAndWait();
+            }
+        });
+
+        //Visiblity of save button
+        saveButton.setVisible(false);
+        scrapedDataLabel.textProperty().addListener((observable, oldValue, newValue) -> {
+            switch(newValue) {
+                case "Scraped text will appear here":
+                    saveButton.setVisible(false);
+                    break;
+                case "":
+                    saveButton.setVisible(false);
+                    break;
+                default:
+                    saveButton.setVisible(true);
+                    break;
+            }
         });
 
         

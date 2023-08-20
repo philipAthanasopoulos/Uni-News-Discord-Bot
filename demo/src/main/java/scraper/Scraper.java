@@ -16,6 +16,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import app.resources.UnicodeColors;
+import javafx.stage.FileChooser;
 
 /**
  * This class implements the IScraper interface and provides methods to scrape HTML tags from websites.
@@ -62,67 +63,6 @@ public class Scraper implements IScraper {
         return doc;
     }
     
-    @Override
-    public File scrapeTagFromSite(String site, String tag) {
-        
-        try {
-            Document doc = scrapeSite(site);
-            Set<String> tags = getListOfTags(doc);
-            Set<String> classes = getListOfClasses(doc);
-            for(String each: tags) System.out.println(each);
-            for(String each: classes) System.out.println(each);
-
-            Elements links = doc.select(tag);
-            List<String> titles = new ArrayList<>();
-            for (Element link : links) {
-                titles.add(link.text());
-            }
-        
-            // Create a file object to save the results
-            String path = System.getProperty("user.dir") + "/demo/src/main/java/app/outputs/" + "output.txt";
-            File file = new File(path);
-            
-            // Write the results to the file
-            System.out.println("Saving results to " + file.getAbsolutePath());          
-            FileWriter  writer = new FileWriter(file );
-            for (String title : titles) {
-                writer.write(title + "\n");
-            }
-            writer.close();
-            
-            // Check if file is empty
-            if(!(file.length() > 0)) {
-                writer.write("No results found!");
-                throw new Exception("No results found!");
-            } 
-            
-            System.out.println( UnicodeColors.green + "Scrape complete!" + UnicodeColors.reset);
-            return file;
-            
-        } catch (Exception e) {
-            // TODO: handle exception
-            System.out.println("Error: " + UnicodeColors.red + e + UnicodeColors.reset);
-            return null;
-        }
-    }
-
-    @Override
-    public List<File> scrapeTagFromSite(List<String> sites , String tag) {
-        List<File> results = new ArrayList<>();
-        for(String site : sites){
-            results.add(scrapeTagFromSite(site, tag)) ;
-        }
-        return results;
-    }
-
-    @Override
-    public void scrapeTagFromSite(List<String> sites , List<String> tags) {
-        // key = site , value = tag
-        Map<String , String> map = new HashMap<>();
-        for(int i = 0 ; i < sites.size() ; i++) map.put(sites.get(i), tags.get(i));
-
-        for(String site : map.keySet()) scrapeTagFromSite(site, map.get(site));
-    }
 
     @Override
     public String scrapeTagFromDocument(Document doc, String tag) {
@@ -170,6 +110,30 @@ public class Scraper implements IScraper {
         Elements elements = doc.getAllElements();
         for(Element element : elements) classes.add("." + element.className()); // Classes should start with a dot
         return classes;
+    }
+
+    public boolean saveScrapedText(String text) {
+       FileChooser fileChooser = new FileChooser();
+       fileChooser.setTitle("Save scraped text");
+       fileChooser.getExtensionFilters().addAll(
+           new FileChooser.ExtensionFilter("Text Files", "*.txt"),
+           new FileChooser.ExtensionFilter("All Files", "*.*")
+       );
+       File file = fileChooser.showSaveDialog(null);
+       if(file != null) {
+              try {
+                FileWriter writer = new FileWriter(file);
+                writer.write(text);
+                writer.close();
+                return true;
+              } catch (IOException e) {
+                System.out.println("Error: " + UnicodeColors.red + e + UnicodeColors.reset);
+                return false;
+              }
+         } else {
+              return false;
+       }
+
     }
 
 
