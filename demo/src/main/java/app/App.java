@@ -2,6 +2,10 @@ package app;
 
 import scraper.Scraper;
 
+import org.jsoup.nodes.Document;
+
+import app.resources.Unicodes;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -17,9 +21,6 @@ import javafx.stage.Stage;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.jsoup.nodes.Document;
-
-import app.resources.Unicodes;
 
 
 public class App extends Application {
@@ -138,6 +139,7 @@ public class App extends Application {
             }
         });
 
+
         // Add layout to scene
         Scene scene = new Scene(layout, 600, 600);
         scene.getStylesheets().add(getClass().getResource("resources/styles/style.css").toExternalForm());
@@ -145,7 +147,7 @@ public class App extends Application {
         primaryStage.show();
 
         // Add logo
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("resources/img/logo.png")));
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("resources/img/cooler_logo.png")));
         scrapeDocumentButton.requestFocus();
     }
 

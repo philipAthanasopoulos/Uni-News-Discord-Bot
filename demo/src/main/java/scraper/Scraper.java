@@ -101,6 +101,7 @@ public class Scraper implements IScraper {
         Set<String> tags = new TreeSet<String>();
         Elements elements = doc.getAllElements();
         for(Element element : elements) tags.add(element.tagName());
+        tags.remove("#root"); // Jsoup uses root to mark the beginning of the document , its not an actual tag
         return tags;
     }
 
@@ -109,6 +110,7 @@ public class Scraper implements IScraper {
         Set<String> classes = new TreeSet<>();
         Elements elements = doc.getAllElements();
         for(Element element : elements) classes.add("." + element.className()); // Classes should start with a dot
+        classes.remove("."); // A dot by itself is not a class , not sure why Jsoup adds it
         return classes;
     }
 
@@ -133,8 +135,5 @@ public class Scraper implements IScraper {
          } else {
               return false;
        }
-
     }
-
-
 }

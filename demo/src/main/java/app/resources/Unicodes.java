@@ -38,4 +38,8 @@ public class Unicodes{
     public final static String magnifyingGlassEmoji = "\uD83D\uDD0D";
     public final static String codeEmoji = "\uD83D\uDDA5";
     public final static String htmlTagEmoji = "\uD83D\uDDC4";
+
+    public static void main(String[] args) {
+        System.out.println(fireEmoji);
+    }
 }

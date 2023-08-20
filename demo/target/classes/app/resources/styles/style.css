@@ -22,9 +22,9 @@
 
 /* Style for active site input */
 .site-input:focused {
-    -fx-border-color: #f39004;
+    -fx-border-color: #02ad60;
     -fx-border-width: 2px;
-    -fx-background-color: #faf3de;
+    -fx-background-color: #e8fdf3;
 }
 
 /* Style the tag label */
