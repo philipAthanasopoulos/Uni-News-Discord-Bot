@@ -1,5 +1,7 @@
 package app.resources;
 
+// Cool unicode characters for console output 
+
 public class Unicodes{
     // Text colors
     public final static String reset = "\u001B[0m";
