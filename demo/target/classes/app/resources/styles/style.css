@@ -10,8 +10,8 @@
 /* Style the site input field */
 .site-input {
     -fx-font-size: 20px;
-    -fx-pref-width: 20px;
-    -fx-pref-height: 40px;
+    -fx-width: 20px;
+    -fx-height: 40px;
     -fx-background-color: #fff;
     -fx-border-color: #ccc;
     -fx-border-radius: 10px;
@@ -37,8 +37,8 @@
 /* Style the tag input field */
 .tag-input {
     -fx-font-size: 20px;
-    -fx-pref-width: 20px;
-    -fx-pref-height: 40px;
+    -fx-width: 20px;
+    -fx-height: 40px;
     -fx-background-color: #fff;
     -fx-border-color: #ccc;
     -fx-border-radius: 10px;

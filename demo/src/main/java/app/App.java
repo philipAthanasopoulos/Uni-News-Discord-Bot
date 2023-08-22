@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -98,8 +99,8 @@ public class App extends Application {
                 return;             
             }
             Set<String> tagsAndClasses = new TreeSet<>();
-            scraper.getListOfTags(globalDocument).forEach(htmlTag -> tagsAndClasses.add(htmlTag));
-            scraper.getListOfClasses(globalDocument).forEach(htmlClass -> tagsAndClasses.add(htmlClass));
+            tagsAndClasses.addAll(scraper.getListOfTags(globalDocument));
+            tagsAndClasses.addAll(scraper.getListOfClasses(globalDocument));
             // Add them to the dropdown
             dropdown.getItems().clear();
             dropdown.getItems().addAll(tagsAndClasses);
@@ -127,28 +128,28 @@ public class App extends Application {
         saveButton.setOnAction( e-> {
             String textToSave = scrapedDataLabel.getText();
             boolean save = scraper.saveScrapedText(textToSave);
+            Alert alert;
             if(save) {
-                Alert alert = new Alert(AlertType.INFORMATION);
+                alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Success");
                 alert.setHeaderText("Document saved successfully");
-                alert.showAndWait();
             } else {
-                Alert alert = new Alert(AlertType.ERROR);
+                alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText("Document could not be saved");
-                alert.showAndWait();
             }
+            alert.showAndWait();
         });
 
 
         // Add layout to scene
         Scene scene = new Scene(layout, 600, 600);
-        scene.getStylesheets().add(getClass().getResource("resources/styles/style.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("resources/styles/style.css")).toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
 
         // Add logo
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("resources/img/cooler_logo.png")));
+        primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("resources/img/cooler_logo.png"))));
         scrapeDocumentButton.requestFocus();
     }
 

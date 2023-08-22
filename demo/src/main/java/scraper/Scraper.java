@@ -10,14 +10,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
 
-import javax.imageio.ImageIO;
-
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import java.io.File;
-import java.nio.file.Files;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -25,7 +17,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import app.resources.Unicodes;
-import javafx.scene.image.Image;
+
 import javafx.stage.FileChooser;
 
 /**
@@ -46,7 +38,7 @@ public class Scraper implements IScraper {
 
     @Override
     public Document scrapeSite(String link) {
-        Document doc = null;
+        Document doc;
         try {
             // Create a URL object for the website you want to scrape
             URI uri = URI.create(link);
@@ -82,15 +74,15 @@ public class Scraper implements IScraper {
         for (Element link : links) {
             titles.add(link.text());
         }
-        String result = "";
-        for(String title : titles) result += title + "\n";
-        return result;
+        StringBuilder result = new StringBuilder();
+        for(String title : titles) result.append(title).append("\n");
+        return result.toString();
     }
 
     @Override
     public String summarizeScrapedData() {
         System.out.println(Unicodes.yellow + "Summarizing scraped data..." + Unicodes.reset);
-        String summary = "";
+        StringBuilder summary = new StringBuilder();
         try {
             String path = System.getProperty("user.dir") + "/demo/src/main/python/summarizer/summarizer.py";
             String[] command = {"python", path};
@@ -98,21 +90,21 @@ public class Scraper implements IScraper {
             process.waitFor();
             File summaryFile = new File(System.getProperty("user.dir") + "/demo/src/main/java/app/outputs/summary.txt");
             Scanner scanner = new Scanner(summaryFile);
-            while(scanner.hasNextLine()) summary += scanner.nextLine() + "\n";
+            while(scanner.hasNextLine()) summary.append(scanner.nextLine()).append("\n");
             scanner.close();
         } catch (IOException | InterruptedException e) {
             System.out.println("Error: " + Unicodes.red + e + Unicodes.reset);
         }
         System.out.println(Unicodes.green + "Summary complete!" + Unicodes.reset);
-        return summary;
+        return summary.toString();
     }
 
     @Override
     public Set<String> getListOfTags(Document doc) {
-        Set<String> tags = new TreeSet<String>();
+        Set<String> tags = new TreeSet<>();
         Elements elements = doc.getAllElements();
         for(Element element : elements) tags.add(element.tagName());
-        tags.remove("#root"); // Jsoup uses root to mark the beginning of the document , its not an actual tag
+        tags.remove("#root"); // Jsoup uses root to mark the beginning of the document , it's not an actual tag
         return tags;
     }
 
