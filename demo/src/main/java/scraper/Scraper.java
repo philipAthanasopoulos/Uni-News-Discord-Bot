@@ -10,12 +10,22 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
 
+import javax.imageio.ImageIO;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import java.io.File;
+import java.nio.file.Files;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import app.resources.Unicodes;
+import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 
 /**
@@ -56,11 +66,12 @@ public class Scraper implements IScraper {
 
             // Parse the HTML and extract the text
             doc = Jsoup.parse(builder.toString());
+            return doc;
         }
         catch (Exception e) {
             System.out.println("Error: " + Unicodes.red + e + Unicodes.reset);
+            return null;
         }
-        return doc;
     }
     
 
@@ -135,5 +146,10 @@ public class Scraper implements IScraper {
          } else {
               return false;
        }
+    }
+
+    
+
+    public static void main(String[] args) {     
     }
 }

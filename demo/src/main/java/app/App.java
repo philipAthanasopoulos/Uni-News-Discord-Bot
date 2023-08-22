@@ -76,6 +76,8 @@ public class App extends Application {
         saveButton.getStyleClass().add("button");
         saveButton.setDisable(true);
 
+        // Preview of website
+
         // Layout with all elements
         VBox layout = new VBox();
         layout.getStyleClass().add("vbox");
@@ -84,27 +86,26 @@ public class App extends Application {
 
         // Submit button action
         scrapeDocumentButton.setOnAction(e -> {
-            if(siteLabelInput.getText().isEmpty()) {
+            String siteLink = siteLabelInput.getText();
+            globalDocument = scraper.scrapeSite(siteLink);
+
+            if(siteLabelInput.getText().isEmpty() || globalDocument == null) {
                 // Alert the user to enter a site
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("Wrong input");
                 alert.setHeaderText("Please enter a valid site URL");
                 alert.showAndWait();
-                return;
+                return;             
             }
-
-            String siteLink = siteLabelInput.getText();
-            globalDocument = scraper.scrapeSite(siteLink);
             Set<String> tagsAndClasses = new TreeSet<>();
             scraper.getListOfTags(globalDocument).forEach(htmlTag -> tagsAndClasses.add(htmlTag));
             scraper.getListOfClasses(globalDocument).forEach(htmlClass -> tagsAndClasses.add(htmlClass));
-
-            //add them to the dropdown
+            // Add them to the dropdown
             dropdown.getItems().clear();
             dropdown.getItems().addAll(tagsAndClasses);
-
-            //enable the dropdown and the submit button
+            // Enable the dropdown and the submit button
             dropdown.setDisable(false);
+            dropdown.setPromptText("Select a tag");
             scrapeTagButton.setDisable(false);
         });
 
