@@ -1,3 +1,7 @@
+# Set the programming language for a file
+ *.java linguist-language=Java
+ *.css linguist-language=CSS
+ *.py linguist-language=Python
 # Set the default text encoding
 * text=auto
 
@@ -7,8 +11,3 @@
 # Ignore files and directories that match these patterns
 .gitignore -text
 *.exe -text
-
-# Set the programming language for a file
- *.java linguist-language=Java
- *.css linguist-language=CSS
- *.py linguist-language=Python
