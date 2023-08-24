@@ -1,7 +1,10 @@
 # Set the programming language for a file
- *.java linguist-language=Java
- *.css linguist-language=CSS
- *.py linguist-language=Python
+linguist-detectable=true
+linguist-language=Java
+
+*.java linguist-language=Java
+*.css linguist-language=CSS
+*.py linguist-language=Python
 # Set the default text encoding
 * text=auto
 
