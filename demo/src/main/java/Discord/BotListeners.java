@@ -14,6 +14,7 @@ public class BotListeners extends ListenerAdapter {
      * TODO: Optimize for multiple channels (multithreading)
      * TODO: Add help command
      * TODO: Add command for getting news
+     * Todo: Add command for getting announcements
      */
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
