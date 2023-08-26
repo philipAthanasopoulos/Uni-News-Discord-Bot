@@ -1,6 +1,5 @@
 package Discord;
 
-import com.sun.tools.javac.comp.Todo;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
