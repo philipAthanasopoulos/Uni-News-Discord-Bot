@@ -23,6 +23,12 @@ public class UoiScraper extends Scraper{
         return presentNews(newsLinks);
     }
 
+    public String scrapeNewsForDiscord(){
+        String newsLink = CSElink + "nea/";
+        ArrayList<Document> newsLinks = scrapeNewsLinks();
+        return presentNewsForDiscord(newsLinks);
+    }
+
     public ArrayList<Document> scrapeNewsLinks(){
         String newsLink = CSElink + "nea/";
         Document doc = scrapeSite(newsLink);
@@ -39,17 +45,31 @@ public class UoiScraper extends Scraper{
             for(Document doc : news){
                 Elements title = doc.select(".page-content").select("h1");
                 Elements content = doc.select(".page-content").select("p");
-                for (int i = 0; i < title.size() && sb.length() < 1000; i++) {
-                    sb.append(title.get(i).text()).append("\n");
+                for (int i = 0; i < title.size(); i++) {
+                    sb.append(Unicodes.green + title.get(i).text() + Unicodes.reset).append("\n");
                     sb.append(content.get(i).text()).append("\n");
                 }
             }
         return sb.toString();
     }
 
+    public String presentNewsForDiscord(ArrayList<Document> news){
+        StringBuilder sb = new StringBuilder();
+        for(Document doc : news){
+            Elements title = doc.select(".page-content").select("h1");
+            Elements content = doc.select(".page-content").select("p");
+            for (int i = 0; i < title.size() && sb.length() < 1000; i++) {
+                sb.append(title.get(i).text()).append("\n");
+                sb.append(content.get(i).text()).append("\n");
+            }
+        }
+        return sb.toString();
+    }
+
 
     public static void main(String[] args) {
         UoiScraper scraper = new UoiScraper();
+        scraper.scrapeNews();
     }
 
 

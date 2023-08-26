@@ -1,20 +1,30 @@
 package Discord;
 
+import com.sun.tools.javac.comp.Todo;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import scraper.UoiScraper;
 
-public class BotListeners extends ListenerAdapter {
+import java.util.function.ToDoubleBiFunction;
 
+public class BotListeners extends ListenerAdapter {
+    /**
+     * TODO: Optimize for multiple channels (multithreading)
+     * TODO: Add help command
+     */
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        if (event.getAuthor().isBot()) return;
-        TextChannel general = event.getGuild().getTextChannelsByName("general", true).get(0);
-        UoiScraper scraper = new UoiScraper();
-        String news = scraper.scrapeNewsToString();
-        general.sendMessage(news).queue();
-
+        if(event.getAuthor().isBot()) return;
+        if(event.getMessage().getContentRaw().equals("!news")){
+            TextChannel channel = event.getChannel().asTextChannel();
+            UoiScraper scraper = new UoiScraper();
+            Message preperationMessage = channel.sendMessage("Preparing news ... ").complete();
+            String news = scraper.scrapeNewsForDiscord();
+            channel.deleteMessageById(preperationMessage.getId()).queue();
+            channel.sendMessage(news).queue();
+        }
     }
 }
