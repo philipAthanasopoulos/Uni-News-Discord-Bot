@@ -15,6 +15,7 @@ public class BotListeners extends ListenerAdapter {
      * TODO: Add help command
      * TODO: Add command for getting news
      * Todo: Add command for getting announcements
+     * Todo: Add command for getting announcements and news
      */
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
