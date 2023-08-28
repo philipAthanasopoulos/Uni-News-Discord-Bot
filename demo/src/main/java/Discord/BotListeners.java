@@ -30,10 +30,7 @@ public class BotListeners extends ListenerAdapter {
 
             case "!news":
                 UoiScraper scraper = new UoiScraper();
-                Message preperationMessage = channel.sendMessage("Preparing news ... ").complete();
-                String news = scraper.scrapeNewsForDiscord();
-                channel.deleteMessageById(preperationMessage.getId()).queue();
-                channel.sendMessage(news).queue();
+                scraper.presentNewsForDiscord(channel);
                 break;
 
             case "!help":
