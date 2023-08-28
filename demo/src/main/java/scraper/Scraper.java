@@ -51,9 +51,7 @@ public class Scraper implements IScraper {
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder builder = new StringBuilder();
             String line;
-            while ((line = reader.readLine()) != null) {
-                builder.append(line);
-            }
+            while ((line = reader.readLine()) != null) builder.append(line);
             reader.close();
 
             // Parse the HTML and extract the text
