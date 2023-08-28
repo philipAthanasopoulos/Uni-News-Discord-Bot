@@ -103,7 +103,7 @@
             </execution>
           </executions>
           <configuration>
-            <mainClass>app.Main</mainClass>
+            <mainClass>Discord.DiscordBot</mainClass>
           </configuration>
         </plugin>
 

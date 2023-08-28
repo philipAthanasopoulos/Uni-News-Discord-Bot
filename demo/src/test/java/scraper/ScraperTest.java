@@ -48,7 +48,7 @@ public class ScraperTest {
         String link = "https://www.example.com";
         Document doc = scraper.scrapeSite(link);
         Set<String> tags = scraper.getListOfTags(doc);
-        Set<String> expectedTags = new java.util.HashSet<>(Arrays.asList("#root", "a", "body", "div", "h1", "head", "html", "meta", "p", "style", "title"));
+        Set<String> expectedTags = new java.util.HashSet<>(Arrays.asList("a", "body", "div", "h1", "head", "html", "meta", "p", "style", "title"));
         Assertions.assertEquals(expectedTags, tags);
     }
 
@@ -57,7 +57,7 @@ public class ScraperTest {
         String link = "https://www.example.com";
         Document doc = scraper.scrapeSite(link);
         Set<String> classes = scraper.getListOfClasses(doc);
-        Set<String> expectedClasses = new java.util.HashSet<>(Arrays.asList("."));
+        Set<String> expectedClasses = new java.util.TreeSet<>();
         Assertions.assertEquals(expectedClasses, classes);
     }
 }

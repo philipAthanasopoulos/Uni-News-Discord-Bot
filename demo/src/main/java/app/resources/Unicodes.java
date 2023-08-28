@@ -13,6 +13,7 @@ public class Unicodes{
     public final static String purple = "\u001B[35m";
     public final static String cyan = "\u001B[36m";
     public final static String white = "\u001B[37m";
+    public final static String pink = "\u001B[38;5;206m";
 
     // Background colors
     public final static String blackBackground = "\u001B[40m";
@@ -42,6 +43,6 @@ public class Unicodes{
     public final static String htmlTagEmoji = "\uD83D\uDDC4";
 
     public static void main(String[] args) {
-        System.out.println(fireEmoji);
+        System.out.println(pink + "Hello World!" + reset);
     }
 }

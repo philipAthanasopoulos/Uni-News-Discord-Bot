@@ -1,4 +1,3 @@
 app\App.class
-app\App$1.class
-scraper\IScraper.class
 scraper\Scraper.class
+scraper\IScraper.class

@@ -5,11 +5,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class UoiScraper extends Scraper{
-    private String CSElink = "https://www.cse.uoi.gr/";
+    private final String CSElink = "https://www.cse.uoi.gr/";
 
     public void scrapeNews(){
         String newsLink = CSElink + "nea/";
@@ -24,7 +23,6 @@ public class UoiScraper extends Scraper{
     }
 
     public String scrapeNewsForDiscord(){
-        String newsLink = CSElink + "nea/";
         ArrayList<Document> newsLinks = scrapeNewsLinks();
         return presentNewsForDiscord(newsLinks);
     }
@@ -46,8 +44,13 @@ public class UoiScraper extends Scraper{
                 Elements title = doc.select(".page-content").select("h1");
                 Elements content = doc.select(".page-content").select("p");
                 for (int i = 0; i < title.size(); i++) {
-                    sb.append(Unicodes.green + title.get(i).text() + Unicodes.reset).append("\n");
-                    sb.append(content.get(i).text()).append("\n");
+                    sb.append(Unicodes.green)
+                        .append(title.get(i).text())
+                        .append(Unicodes.reset)
+                        .append("\n");
+
+                    sb.append(content.get(i).text())
+                        .append("\n");
                 }
             }
         return sb.toString();
@@ -59,8 +62,13 @@ public class UoiScraper extends Scraper{
             Elements title = doc.select(".page-content").select("h1");
             Elements content = doc.select(".page-content").select("p");
             for (int i = 0; i < title.size() && sb.length() < 1000; i++) {
-                sb.append(title.get(i).text()).append("\n");
-                sb.append(content.get(i).text()).append("\n");
+                sb.append("***")
+                    .append(title.get(i).text())
+                    .append("***")
+                    .append("\n");
+
+                sb.append(content.get(i).text())
+                    .append("\n\n");
             }
         }
         return sb.toString();

@@ -33,7 +33,7 @@ import javafx.stage.FileChooser;
 public class Scraper implements IScraper {
 
     public Scraper(){
-        System.out.println("Scraper initialized!");
+        System.out.println(Unicodes.pink + "Scraper initialized!" + Unicodes.reset);
     }
 
     @Override
