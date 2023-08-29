@@ -1,15 +1,14 @@
 package Discord;
 
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import scraper.UoiScraper;
 
-import java.util.function.ToDoubleBiFunction;
 
 public class BotListeners extends ListenerAdapter {
+    UoiScraper scraper = new UoiScraper();
     /**
      * TODO: Optimize for multiple channels (multithreading)
      * TODO: Add help command
@@ -29,14 +28,24 @@ public class BotListeners extends ListenerAdapter {
                 break;
 
             case "!news":
-                UoiScraper scraper = new UoiScraper();
                 scraper.presentNewsForDiscord(channel);
+                break;
+            case "!latest news":
+                scraper.presentLatestNewsForDiscord(channel);
                 break;
 
             case "!help":
-                channel.sendMessage("***Commands***:\n" +
+                //explain commands
+                channel.sendMessage("Commands:\n" +
                         "**!ping** - Pong!\n" +
-                        "**!news** - Get the latest news from the CSE department").queue();
+                        "**!news** - Get all news\n" +
+                        "**!latest news** - Get latest news article\n" +
+                        "**!help** - Get help")
+                        .queue();
+
+
+                break;
+            default:
                 break;
         }
     }

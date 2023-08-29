@@ -3,6 +3,7 @@ package scraper;
 import app.resources.Unicodes;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import org.jetbrains.annotations.NotNull;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -29,7 +30,7 @@ public class UoiScraper extends Scraper{
         return documents;
     }
 
-    public void removeUnwantedElements(ArrayList<Document> documents){
+    public void removeUnwantedElements(@NotNull ArrayList<Document> documents){
         for(Document doc : documents){
             Elements elementsToRemove = doc.select("a:contains(WordPress)," +
                     "a:contains(online free course)," +
@@ -39,43 +40,47 @@ public class UoiScraper extends Scraper{
         }
     }
 
-    public String presentNews(ArrayList<Document> newsDocuments){
+    public String presentNews(@NotNull ArrayList<Document> newsDocuments){
         StringBuilder sb = new StringBuilder();
         newsDocuments.forEach(doc -> sb.append(presentDocument(doc)));
         return sb.toString();
     }
 
-    public String presentDocument(Document document){
+    public String presentDocument(@NotNull Document document){
         StringBuilder sb = new StringBuilder();
         Element title = document.select(".cs-heading-sec").first();
         Elements contents = document.select(".cs-editor-text");
         assert title != null;
         sb.append(Unicodes.green)
-                .append(title.text())
+                .append(title.attributes())
                 .append(Unicodes.reset)
                 .append("\n");
         sb.append(contents.text())
+                .append(" ")
+                .append(contents.select("a").attr("abs:href"))
                 .append("\n");
         return sb.toString();
     }
 
-    public String presentDocumentForDiscord(Document document){
+    public String presentDocumentForDiscord(@NotNull Document document){
         StringBuilder sb = new StringBuilder();
         Element title = document.select(".cs-heading-sec").first();
         Elements contents = document.select(".cs-editor-text");
         assert title != null;
         sb.append("## ")
                 .append(title.text())
-                .append(Unicodes.reset)
-                .append("\n");
+                .append("  \n");
         sb.append("> ")
                 .append(contents.text())
+                .append(" ")
+                .append(contents.select("a").attr("abs:href"))
                 .append("\n");
         return sb.toString();
     }
 
-    public void presentNewsForDiscord(TextChannel channel){
+    public void presentNewsForDiscord(@NotNull TextChannel channel){
         Message preperationMessage = channel.sendMessage("Preparing news ... ").complete();
+        channel.sendTyping().queue();
         ArrayList<String> messages = new ArrayList<>();
         ArrayList<Document> newsDocuments = scrapeNewsLinks();
         newsDocuments.forEach(doc -> messages.add(presentDocumentForDiscord(doc)));
@@ -83,6 +88,16 @@ public class UoiScraper extends Scraper{
         for(String message : messages) channel.sendMessage(message).queue();
     }
 
+    public void presentLatestNewsForDiscord(@NotNull TextChannel channel){
+        Message preperationMessage = channel.sendMessage("Preparing news ... ").complete();
+        channel.sendTyping().queue();
+        ArrayList<String> messages = new ArrayList<>();
+        ArrayList<Document> newsDocuments = new ArrayList<>();
+        newsDocuments.add(scrapeNewsLinks().get(0));
+        messages.add(presentDocumentForDiscord(newsDocuments.get(0)));
+        channel.deleteMessageById(preperationMessage.getId()).queue();
+        channel.sendMessage(messages.get(0)).queue();
+    }
 
     public static void main(String[] args) {
         UoiScraper scraper = new UoiScraper();
