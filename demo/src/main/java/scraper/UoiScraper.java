@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 public class UoiScraper extends Scraper{
 
+    final int MAX_DISCORD_MESSAGE_LENGTH = 2000;
+
     public void scrapeNews(){
         ArrayList<Document> newsLinks = scrapeNewsLinks();
         System.out.println(presentNews(newsLinks));
@@ -75,6 +77,15 @@ public class UoiScraper extends Scraper{
                 .append(" ")
                 .append(contents.select("a").attr("abs:href"))
                 .append("\n");
+
+        // If the message is too long for Discord, delete the last 100 characters and add the link to the news
+        if(sb.length() > MAX_DISCORD_MESSAGE_LENGTH){
+            String link = document.baseUri();
+            String redirectMessage = " ***....[Read more](" + link + ")***";
+            sb.delete(MAX_DISCORD_MESSAGE_LENGTH - redirectMessage.length(), sb.length());
+            sb.append(redirectMessage);
+        }
+
         return sb.toString();
     }
 
@@ -85,7 +96,12 @@ public class UoiScraper extends Scraper{
         ArrayList<Document> newsDocuments = scrapeNewsLinks();
         newsDocuments.forEach(doc -> messages.add(presentDocumentForDiscord(doc)));
         channel.deleteMessageById(preperationMessage.getId()).queue();
-        for(String message : messages) channel.sendMessage(message).queue();
+        try{
+            messages.forEach(message -> channel.sendMessage(message).queue());
+        }catch (Exception e){
+            System.out.println("Something went wrong while presenting news for discord : \n" + e.getMessage() + "\n");
+        }
+
     }
 
     public void presentLatestNewsForDiscord(@NotNull TextChannel channel){

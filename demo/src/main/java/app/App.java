@@ -144,12 +144,13 @@ public class App extends Application {
 
         // Add layout to scene
         Scene scene = new Scene(layout, 600, 600);
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("resources/styles/style.css")).toExternalForm());
+        // Add stylesheet and logo
+//        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("app/resources/css/style.css")).toExternalForm());
+//        primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("app/resources/img/cooler_logo.png"))));
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        // Add logo
-        primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("resources/img/cooler_logo.png"))));
+        // Take focus away from the site input
         scrapeDocumentButton.requestFocus();
     }
 

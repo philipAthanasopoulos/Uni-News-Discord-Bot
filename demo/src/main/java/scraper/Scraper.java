@@ -38,24 +38,9 @@ public class Scraper implements IScraper {
 
     @Override
     public Document scrapeSite(String link) {
-        Document doc;
         try {
-            // Create a URL object for the website you want to scrape
-            URI uri = URI.create(link);
-            URL url = uri.toURL();
-
-            // Open a connection to the URL and send an HTTP request
-            URLConnection connection = url.openConnection();
-
-            // Read the HTML response from the connection
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder builder = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) builder.append(line);
-            reader.close();
-
-            // Parse the HTML and extract the text
-            doc = Jsoup.parse(builder.toString());
+            Document doc;
+            doc = Jsoup.connect(link).get();
             return doc;
         }
         catch (Exception e) {
@@ -63,7 +48,6 @@ public class Scraper implements IScraper {
             return null;
         }
     }
-    
 
     @Override
     public String scrapeTagFromDocument(Document doc, String tag) {

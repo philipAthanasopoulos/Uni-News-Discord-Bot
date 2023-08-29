@@ -26,14 +26,12 @@ public class BotListeners extends ListenerAdapter {
             case "!ping":
                 channel.sendMessage("Pong!").queue();
                 break;
-
             case "!news":
                 scraper.presentNewsForDiscord(channel);
                 break;
             case "!latest news":
                 scraper.presentLatestNewsForDiscord(channel);
                 break;
-
             case "!help":
                 //explain commands
                 channel.sendMessage("Commands:\n" +
@@ -42,8 +40,6 @@ public class BotListeners extends ListenerAdapter {
                         "**!latest news** - Get latest news article\n" +
                         "**!help** - Get help")
                         .queue();
-
-
                 break;
             default:
                 break;
