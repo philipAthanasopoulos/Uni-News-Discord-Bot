@@ -14,11 +14,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -145,8 +143,9 @@ public class App extends Application {
         // Add layout to scene
         Scene scene = new Scene(layout, 600, 600);
         // Add stylesheet and logo
-//        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("app/resources/css/style.css")).toExternalForm());
-//        primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("app/resources/img/cooler_logo.png"))));
+        String cssPath = "main/java/app/resources/styles/style.css";
+        scene.getStylesheets().addAll(cssPath);
+//        primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("resources/img/cooler_logo.png"))));
         primaryStage.setScene(scene);
         primaryStage.show();
 

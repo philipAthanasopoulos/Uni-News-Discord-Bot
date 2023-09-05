@@ -35,7 +35,9 @@ public class UoiScraper extends Scraper{
     public void removeUnwantedElements(@NotNull ArrayList<Document> documents){
         for(Document doc : documents){
             Elements elementsToRemove = doc.select("a:contains(WordPress)," +
-                    "a:contains(online free course)," +
+                    "a:contains(online)," +
+                    "a:contains(free)," +
+                    "a:contains(course)," +
                     "a:contains(udemy)")
                     .remove();
             elementsToRemove.forEach(Element::remove);
@@ -51,16 +53,20 @@ public class UoiScraper extends Scraper{
     public String presentDocument(@NotNull Document document){
         StringBuilder sb = new StringBuilder();
         Element title = document.select(".cs-heading-sec").first();
-        Elements contents = document.select(".cs-editor-text");
+        Elements contents = document.select(".cs-post-panel");
         assert title != null;
         sb.append(Unicodes.green)
-                .append(title.attributes())
+                .append(title.text())
                 .append(Unicodes.reset)
                 .append("\n");
-        sb.append(contents.text())
-                .append(" ")
-                .append(contents.select("a").attr("abs:href"))
-                .append("\n");
+        for(Element element : contents){
+            if (element.tagName().equals("a")){
+                sb.append(element.attr("abs:href"));
+            } else {
+                sb.append(element.text());
+            }
+        }
+        sb.append("\n");
         return sb.toString();
     }
 
@@ -85,7 +91,6 @@ public class UoiScraper extends Scraper{
             sb.delete(MAX_DISCORD_MESSAGE_LENGTH - redirectMessage.length(), sb.length());
             sb.append(redirectMessage);
         }
-
         return sb.toString();
     }
 

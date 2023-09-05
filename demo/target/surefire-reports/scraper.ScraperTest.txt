@@ -1,12 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: scraper.ScraperTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 6.795 s <<< FAILURE! - in scraper.ScraperTest
-getListOfClassesTest  Time elapsed: 0.81 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: expected: <[.]> but was: <[]>
-	at scraper.ScraperTest.getListOfClassesTest(ScraperTest.java:61)
-
-getListOfTagsTest  Time elapsed: 0.469 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: expected: <[div, head, p, a, meta, #root, h1, html, style, body, title]> but was: <[a, body, div, h1, head, html, meta, p, style, title]>
-	at scraper.ScraperTest.getListOfTagsTest(ScraperTest.java:52)
-
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.247 s - in scraper.ScraperTest
