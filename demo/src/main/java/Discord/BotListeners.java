@@ -12,17 +12,17 @@ import scraper.UoiScraper;
 public class BotListeners extends ListenerAdapter {
 
     private JDA jda = null;
-    private TextChannel generalChannel;
-    private TextChannel newsChannel;
-    private UoiScraper scraper;
+    private static TextChannel generalChannel;
+    private static TextChannel newsChannel;
+    private static UoiScraper scraper;
 
     public BotListeners(JDA jda) throws SchedulerException {
         this.jda = jda;
-        this.generalChannel = jda.getTextChannelsByName("general", false).get(0);
-        this.newsChannel = jda.getTextChannelsByName("news", false).get(0);
+        generalChannel = jda.getTextChannelsByName("general", false).get(0);
+        newsChannel = jda.getTextChannelsByName("news", false).get(0);
         System.out.println("General channel: " + generalChannel);
         System.out.println("News channel: " + newsChannel);
-        this.scraper = new UoiScraper();
+        scraper = new UoiScraper();
         sendDailyNews();
     }
 
@@ -57,14 +57,14 @@ public class BotListeners extends ListenerAdapter {
         }
     }
 
-    public class NewsJob implements Job{
+    public static class NewsJob implements Job{
         public NewsJob(){
             System.out.println("Creating job");
         }
         @Override
         public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException{
-            System.out.println("Executing job");
-        
+            newsChannel.getIterableHistory().forEach(message -> message.delete().queue());
+            scraper.presentNewsForDiscord(newsChannel);
         }
     }
 
@@ -76,14 +76,14 @@ public class BotListeners extends ListenerAdapter {
                 .withIdentity("presentNewsForDiscordJob", "group1")
                 .build();
 
-        CronTrigger trigger = TriggerBuilder.newTrigger()
-                .withIdentity("trigger1", "group1")
-                .withSchedule(CronScheduleBuilder.cronSchedule("0 * * ? * * *"))
+        //trigger every day at 12:58
+        Trigger trigger = TriggerBuilder.newTrigger()
+                .withIdentity("presentNewsForDiscordTrigger", "group1")
+                .withSchedule(CronScheduleBuilder.cronSchedule("0 00 10 * * ?"))
                 .build();
 
-        scheduler.scheduleJob(scrapeNewsJob, trigger);
 
-        //fire immediately
-        scheduler.triggerJob(scrapeNewsJob.getKey());
+        scheduler.scheduleJob(scrapeNewsJob, trigger);
+        System.out.println("Next new update: " + trigger.getNextFireTime());
     }
 }
