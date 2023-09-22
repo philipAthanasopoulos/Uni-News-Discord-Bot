@@ -1,4 +1,4 @@
-package scraper;
+package Scraper;
 
 import org.jsoup.nodes.Document;
 import java.util.Set;

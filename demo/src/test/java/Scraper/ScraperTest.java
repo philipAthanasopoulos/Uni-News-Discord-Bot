@@ -1,6 +1,6 @@
-package scraper;
+package Scraper;
 
-import app.resources.Unicodes;
+import app.Unicodes;
 
 import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.Assertions;

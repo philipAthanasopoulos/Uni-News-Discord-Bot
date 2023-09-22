@@ -1,25 +1,15 @@
 package app;
 
-import scraper.Scraper;
-
-import org.jsoup.nodes.Document;
-
-import app.resources.Unicodes;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
+import org.jsoup.nodes.Document;
+import Scraper.Scraper;
 import java.util.Set;
 import java.util.TreeSet;
-
 
 
 public class App extends Application {
@@ -140,12 +130,11 @@ public class App extends Application {
         });
 
 
-        // Add layout to scene
         Scene scene = new Scene(layout, 600, 600);
+
         // Add stylesheet and logo
-        String cssPath = "main/java/app/resources/styles/style.css";
-        scene.getStylesheets().addAll(cssPath);
-//        primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("resources/img/cooler_logo.png"))));
+        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+        primaryStage.getIcons().add(new javafx.scene.image.Image(getClass().getResource("/img/green_logo.png").toExternalForm()));
         primaryStage.setScene(scene);
         primaryStage.show();
 

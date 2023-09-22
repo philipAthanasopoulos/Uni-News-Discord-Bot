@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import net.dv8tion.jda.api.*;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
-import scraper.UoiScraper;
+import Scraper.UoiScraper;
 
 public class BotListeners extends ListenerAdapter {
 

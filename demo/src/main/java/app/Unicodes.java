@@ -1,3 +1,4 @@
+package app;
 // Cool unicode characters for console output
 
 public class Unicodes{

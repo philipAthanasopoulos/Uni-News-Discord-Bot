@@ -1,4 +1,4 @@
-package scraper;
+package Scraper;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -6,12 +6,13 @@ import java.io.IOException;
 
 import java.util.*;
 
+import org.jetbrains.annotations.NotNull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import app.resources.Unicodes;
+import app.Unicodes;
 
 import javafx.stage.FileChooser;
 
@@ -45,12 +46,10 @@ public class Scraper implements IScraper {
     }
 
     @Override
-    public String scrapeTagFromDocument(Document doc, String tag) {
+    public String scrapeTagFromDocument(@NotNull Document doc, String tag) {
         Elements links = doc.select(tag);
         List<String> titles = new ArrayList<>();
-        for (Element link : links) {
-            titles.add(link.text());
-        }
+        links.forEach(link -> titles.add(link.text()));
         StringBuilder result = new StringBuilder();
         for(String title : titles) result.append(title).append("\n");
         return result.toString();
@@ -77,19 +76,19 @@ public class Scraper implements IScraper {
     }
 
     @Override
-    public Set<String> getListOfTags(Document doc) {
+    public Set<String> getListOfTags(@NotNull Document doc) {
         Set<String> tags = new TreeSet<>();
         Elements elements = doc.getAllElements();
-        for(Element element : elements) tags.add(element.tagName());
+        elements.forEach(element -> tags.add(element.tagName()));
         tags.remove("#root"); // Jsoup uses root to mark the beginning of the document , it's not an actual tag
         return tags;
     }
 
     @Override
-    public Set<String> getListOfClasses(Document doc) {
+    public Set<String> getListOfClasses(@NotNull Document doc) {
         Set<String> classes = new TreeSet<>();
         Elements elements = doc.getAllElements();
-        for(Element element : elements) classes.add("." + element.className()); // Classes should start with a dot
+        elements.forEach(element -> classes.add("." + element.className())); // Classes should start with a dot
         classes.remove("."); // A dot by itself is not a class , not sure why Jsoup adds it
         return classes;
     }
@@ -116,8 +115,6 @@ public class Scraper implements IScraper {
               return false;
        }
     }
-
-    
 
     public static void main(String[] args) {     
     }

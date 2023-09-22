@@ -1,14 +1,21 @@
-package scraper;
+package Scraper;
 
-import app.resources.Unicodes;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.jetbrains.annotations.NotNull;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
+import app.Unicodes;
 import java.util.ArrayList;
+
+
+/**
+ * This class is responsible for scraping the news from the CSE department of the University of Ioannina.
+ * Methods provided use MarkDown characters like "*" , ">" , "#" to format the messages for Discord.
+ * @author Philip Athanasopoulos
+ */
+
 
 public class UoiScraper extends Scraper{
 
@@ -84,7 +91,7 @@ public class UoiScraper extends Scraper{
                 .append(contents.select("a").attr("abs:href"))
                 .append("\n");
 
-        // If the message is too long for Discord, delete the last 100 characters and add the link to the news
+        // If the message is too long for Discord, delete enough extra characters + some space for the redirect message
         if(sb.length() > MAX_DISCORD_MESSAGE_LENGTH){
             String link = document.baseUri();
             String redirectMessage = " ***....[Read more](" + link + ")***";

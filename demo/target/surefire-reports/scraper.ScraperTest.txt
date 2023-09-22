@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: scraper.ScraperTest
+Test set: Scraper.ScraperTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.247 s - in scraper.ScraperTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.653 s - in Scraper.ScraperTest
