@@ -134,7 +134,6 @@ public class App extends Application {
 
         // Add stylesheet and logo
         scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
-        primaryStage.getIcons().add(new javafx.scene.image.Image(getClass().getResource("/img/green_logo.png").toExternalForm()));
         primaryStage.setScene(scene);
         primaryStage.show();
 

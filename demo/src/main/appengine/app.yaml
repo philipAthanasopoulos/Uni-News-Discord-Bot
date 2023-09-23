@@ -1,0 +1,11 @@
+runtime: java
+entrypoint: java -jar demo-1.0-SNAPSHOT.jar
+env: flex
+runtime_config:
+  operating_system: ubuntu22
+  runtime_version: 17
+handlers:
+  - url: /.*
+    script: this field is required, but ignored
+manual_scaling:
+  instances: 1

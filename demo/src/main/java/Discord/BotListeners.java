@@ -1,7 +1,10 @@
 package Discord;
 
+import app.Unicodes;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import net.dv8tion.jda.api.*;
@@ -9,12 +12,16 @@ import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import Scraper.UoiScraper;
 
+import java.util.ArrayList;
+
 public class BotListeners extends ListenerAdapter {
 
     private JDA jda = null;
     private static TextChannel generalChannel;
     private static TextChannel newsChannel;
     private static UoiScraper scraper;
+    private ArrayList<String> currentSlideShow = new ArrayList<>();
+    private int currentSlideShowIndex = 0;
 
     public BotListeners(JDA jda) throws SchedulerException {
         this.jda = jda;
@@ -43,6 +50,10 @@ public class BotListeners extends ListenerAdapter {
             case "!latest news":
                 scraper.presentLatestNewsForDiscord(channel);
                 break;
+            case "!slide":
+                currentSlideShow = scraper.presentNewsForDiscordSlideShow(channel);
+                currentSlideShowIndex = 0;
+                break;
             case "!help":
                 //explain commands
                 channel.sendMessage("Commands:\n" +
@@ -57,12 +68,37 @@ public class BotListeners extends ListenerAdapter {
         }
     }
 
+    @Override
+    public void onMessageReactionAdd(@NotNull MessageReactionAddEvent event) {
+        handleArticleControls(event);
+    }
+
+    public void handleArticleControls(MessageReactionAddEvent event){
+        if(event.getUser().isBot()) return;
+        Message message = event.getChannel().retrieveMessageById(event.getMessageId()).complete();
+        if(message.getAuthor().isBot()){
+            if (event.getReaction().getEmoji().asUnicode().equals(Unicodes.rightArrowEmoji)){
+                if(currentSlideShowIndex == currentSlideShow.size() - 1) return;
+                message.delete().queue();
+                scraper.presentArticleForDiscordSlideShow(currentSlideShow.get(currentSlideShowIndex++),event.getChannel().asTextChannel());
+            }
+            else if(event.getReaction().getEmoji().asUnicode().equals(Unicodes.leftArrowEmoji)){
+                if(currentSlideShowIndex == 0) return;
+                message.delete().queue();
+                scraper.presentArticleForDiscordSlideShow(currentSlideShow.get(currentSlideShowIndex--),event.getChannel().asTextChannel());
+            }
+            else if(event.getReaction().getEmoji().asUnicode().equals(Unicodes.xEmoji)){
+                message.delete().queue();
+            }
+        }
+    }
+
     public static class NewsJob implements Job{
         public NewsJob(){
             System.out.println("Creating job");
         }
         @Override
-        public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException{
+        public void execute(JobExecutionContext jobExecutionContext){
             newsChannel.getIterableHistory().forEach(message -> message.delete().queue());
             scraper.presentNewsForDiscord(newsChannel);
         }

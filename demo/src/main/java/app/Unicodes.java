@@ -1,6 +1,8 @@
 package app;
 // Cool unicode characters for console output
 
+import net.dv8tion.jda.api.entities.emoji.Emoji;
+
 public class Unicodes{
     // Text colors
     public final static String reset = "\u001B[0m";
@@ -40,6 +42,11 @@ public class Unicodes{
     public final static String magnifyingGlassEmoji = "\uD83D\uDD0D";
     public final static String codeEmoji = "\uD83D\uDDA5";
     public final static String htmlTagEmoji = "\uD83D\uDDC4";
+    public final static Emoji checkMarkEmoji = Emoji.fromUnicode("\u2705");
+    public final static Emoji xEmoji = Emoji.fromUnicode("\u274C");
+
+    public final static Emoji rightArrowEmoji = Emoji.fromUnicode("\u27A1");
+    public final static Emoji leftArrowEmoji = Emoji.fromUnicode("\u2B05");
 
 
     public static void main(String[] args) {

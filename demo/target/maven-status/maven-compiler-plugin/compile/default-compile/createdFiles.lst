@@ -1,11 +1,11 @@
-Discord\BotListeners$NewsJob.class
 app\App.class
-Discord\DiscordBot.class
 app\Unicodes.class
-Discord\DiscordToken.class
 Scraper\UoiMenuScraper.class
-Scraper\UoiScraper.class
 app\Main.class
-Discord\BotListeners.class
 Scraper\Scraper.class
 Scraper\IScraper.class
+Discord\BotListeners$NewsJob.class
+Discord\DiscordBot.class
+Discord\DiscordToken.class
+Scraper\UoiScraper.class
+Discord\BotListeners.class

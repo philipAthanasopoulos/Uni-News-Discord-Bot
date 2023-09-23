@@ -18,8 +18,8 @@ import java.util.ArrayList;
 
 
 public class UoiScraper extends Scraper{
-
-    final int MAX_DISCORD_MESSAGE_LENGTH = 2000;
+    private final String CSElink = "https://www.cse.uoi.gr/";
+    private final String newsLink = CSElink + "nea/";
 
     public void scrapeNews(){
         ArrayList<Document> newsLinks = scrapeNewsLinks();
@@ -27,17 +27,27 @@ public class UoiScraper extends Scraper{
     }
 
     public ArrayList<Document> scrapeNewsLinks(){
-        String CSElink = "https://www.cse.uoi.gr/";
-        String newsLink = CSElink + "nea/";
+        ArrayList<String> newsLinks = getNewsLinks();
+        ArrayList<Document> documents = new ArrayList<>();
+        newsLinks.forEach(link -> documents.add(scrapeSite(link)));
+        removeUnwantedElements(documents);
+        return documents;
+    }
+
+    public Document scrapeLatestNewsLink(){
+        ArrayList<String> newsLinks = getNewsLinks();
+        return scrapeSite(newsLinks.get(0));
+    }
+
+    public ArrayList<String> getNewsLinks(){
         Document doc = scrapeSite(newsLink);
         ArrayList<String> newsLinks = new ArrayList<>();
         Elements links = doc.select(".cs-campus-info").select("h6").select("a[href]");
         for(Element link : links) newsLinks.add(link.attr("abs:href"));
-        ArrayList<Document> documents = new ArrayList<>();
-        for(String link : newsLinks) documents.add(scrapeSite(link));
-        removeUnwantedElements(documents);
-        return documents;
+        return newsLinks;
     }
+
+
 
     public void removeUnwantedElements(@NotNull ArrayList<Document> documents){
         for(Document doc : documents){
@@ -92,6 +102,7 @@ public class UoiScraper extends Scraper{
                 .append("\n");
 
         // If the message is too long for Discord, delete enough extra characters + some space for the redirect message
+        int MAX_DISCORD_MESSAGE_LENGTH = 2000;
         if(sb.length() > MAX_DISCORD_MESSAGE_LENGTH){
             String link = document.baseUri();
             String redirectMessage = " ***....[Read more](" + link + ")***";
@@ -102,6 +113,7 @@ public class UoiScraper extends Scraper{
     }
 
     public void presentNewsForDiscord(@NotNull TextChannel channel){
+        long start = System.currentTimeMillis();
         Message preperationMessage = channel.sendMessage("Preparing news ... ").complete();
         channel.sendTyping().queue();
         ArrayList<String> messages = new ArrayList<>();
@@ -110,21 +122,44 @@ public class UoiScraper extends Scraper{
         channel.deleteMessageById(preperationMessage.getId()).queue();
         try{
             messages.forEach(message -> channel.sendMessage(message).queue());
+
         }catch (Exception e){
             System.out.println("Something went wrong while presenting news for discord : \n" + e.getMessage() + "\n");
         }
-
+        long end = System.currentTimeMillis();
+        System.out.println("Time elapsed: " + (end - start) + "ms");
     }
 
-    public void presentLatestNewsForDiscord(@NotNull TextChannel channel){
+    public ArrayList<String> presentNewsForDiscordSlideShow(TextChannel channel){
+        long start = System.currentTimeMillis();
         Message preperationMessage = channel.sendMessage("Preparing news ... ").complete();
         channel.sendTyping().queue();
         ArrayList<String> messages = new ArrayList<>();
-        ArrayList<Document> newsDocuments = new ArrayList<>();
-        newsDocuments.add(scrapeNewsLinks().get(0));
-        messages.add(presentDocumentForDiscord(newsDocuments.get(0)));
+        ArrayList<Document> newsDocuments = scrapeNewsLinks();
+        newsDocuments.forEach(doc -> messages.add(presentDocumentForDiscord(doc)));
         channel.deleteMessageById(preperationMessage.getId()).queue();
-        channel.sendMessage(messages.get(0)).queue();
+        presentArticleForDiscordSlideShow(messages.get(0),channel);
+        long end = System.currentTimeMillis();
+        System.out.println("Time elapsed: " + (end - start) + "ms");
+        return messages;
+    }
+
+    public void presentArticleForDiscordSlideShow(String messageText,TextChannel channel){
+        Message message = channel.sendMessage(messageText).complete();
+        message.addReaction(Unicodes.xEmoji).queue();
+        message.addReaction(Unicodes.leftArrowEmoji).queue();
+        message.addReaction(Unicodes.rightArrowEmoji).queue();
+    }
+
+    public void presentLatestNewsForDiscord(@NotNull TextChannel channel){
+        long start = System.currentTimeMillis();
+        channel.sendMessage("Preparing news ... ").complete();
+        channel.sendTyping().queue();
+        Document latestNewsDocument = scrapeLatestNewsLink();
+        String message = presentDocumentForDiscord(latestNewsDocument);
+        channel.sendMessage(message).queue();
+        long end = System.currentTimeMillis();
+        System.out.println("Time elapsed: " + (end - start) + "ms");
     }
 
     public static void main(String[] args) {
