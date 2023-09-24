@@ -47,6 +47,9 @@ public class Unicodes{
 
     public final static Emoji rightArrowEmoji = Emoji.fromUnicode("\u27A1");
     public final static Emoji leftArrowEmoji = Emoji.fromUnicode("\u2B05");
+    public final static Emoji whiteXEmoji = Emoji.fromUnicode("\u274E");
+    public final static Emoji greenCheckMarkEmoji = Emoji.fromUnicode("\u2705");
+    public final static Emoji redXEmoji = Emoji.fromUnicode("\u274C");
 
 
     public static void main(String[] args) {

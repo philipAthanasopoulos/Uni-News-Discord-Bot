@@ -2,6 +2,9 @@ package Scraper;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.jetbrains.annotations.NotNull;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -130,25 +133,23 @@ public class UoiScraper extends Scraper{
         System.out.println("Time elapsed: " + (end - start) + "ms");
     }
 
-    public ArrayList<String> presentNewsForDiscordSlideShow(TextChannel channel){
-        long start = System.currentTimeMillis();
+    public ArrayList<String> printNewsInDiscordSlideShow(TextChannel channel){
         Message preperationMessage = channel.sendMessage("Preparing news ... ").complete();
         channel.sendTyping().queue();
         ArrayList<String> messages = new ArrayList<>();
         ArrayList<Document> newsDocuments = scrapeNewsLinks();
         newsDocuments.forEach(doc -> messages.add(presentDocumentForDiscord(doc)));
         channel.deleteMessageById(preperationMessage.getId()).queue();
-        presentArticleForDiscordSlideShow(messages.get(0),channel);
-        long end = System.currentTimeMillis();
-        System.out.println("Time elapsed: " + (end - start) + "ms");
         return messages;
     }
 
     public void presentArticleForDiscordSlideShow(String messageText,TextChannel channel){
-        Message message = channel.sendMessage(messageText).complete();
-        message.addReaction(Unicodes.xEmoji).queue();
-        message.addReaction(Unicodes.leftArrowEmoji).queue();
-        message.addReaction(Unicodes.rightArrowEmoji).queue();
+        Button deleteButton = Button.secondary("delete-article",Unicodes.redXEmoji);
+        Button nextButton = Button.primary("next-article","➡️");
+        Button previousButton = Button.primary("previous-article","⬅️");
+        channel.sendMessage(messageText)
+                .setActionRow(deleteButton,previousButton,nextButton)
+                .complete();
     }
 
     public void presentLatestNewsForDiscord(@NotNull TextChannel channel){
