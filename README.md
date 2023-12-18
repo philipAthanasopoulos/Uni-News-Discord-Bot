@@ -3,8 +3,8 @@
 
 
 
+![Untitled video - Made with Clipchamp (2)](https://github.com/philipAthanasopoulos/WebScraper/assets/80889555/69c8a48f-a8bb-4012-94ae-a1a1fb2f958c)
 
-![Untitled video - Made with Clipchamp (2)](https://github.com/philipAthanasopoulos/WebScraper/assets/80889555/405c60f5-717e-48b6-96e7-e81a43d8dd7f)
 
 
 
