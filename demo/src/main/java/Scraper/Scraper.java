@@ -9,7 +9,6 @@ import java.util.*;
 import org.jetbrains.annotations.NotNull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import app.Unicodes;
@@ -28,9 +27,6 @@ import javafx.stage.FileChooser;
 
 public class Scraper implements IScraper {
 
-    public Scraper(){
-        System.out.println(Unicodes.pink + "Scraper initialized!" + Unicodes.reset);
-    }
 
     @Override
     public Document scrapeSite(String link) {
@@ -46,8 +42,8 @@ public class Scraper implements IScraper {
     }
 
     @Override
-    public String scrapeTagFromDocument(@NotNull Document doc, String tag) {
-        Elements links = doc.select(tag);
+    public String scrapeTagFromDocument(@NotNull Document document, String tag) {
+        Elements links = document.select(tag);
         List<String> titles = new ArrayList<>();
         links.forEach(link -> titles.add(link.text()));
         StringBuilder result = new StringBuilder();
@@ -57,22 +53,7 @@ public class Scraper implements IScraper {
 
     @Override
     public String summarizeScrapedData() {
-        System.out.println(Unicodes.yellow + "Summarizing scraped data..." + Unicodes.reset);
-        StringBuilder summary = new StringBuilder();
-        try {
-            String path = System.getProperty("user.dir") + "/demo/src/main/python/summarizer/summarizer.py";
-            String[] command = {"python", path};
-            Process process = Runtime.getRuntime().exec(command);
-            process.waitFor();
-            File summaryFile = new File(System.getProperty("user.dir") + "/demo/src/main/java/app/outputs/summary.txt");
-            Scanner scanner = new Scanner(summaryFile);
-            while(scanner.hasNextLine()) summary.append(scanner.nextLine()).append("\n");
-            scanner.close();
-        } catch (IOException | InterruptedException e) {
-            System.out.println("Error: " + Unicodes.red + e + Unicodes.reset);
-        }
-        System.out.println(Unicodes.green + "Summary complete!" + Unicodes.reset);
-        return summary.toString();
+        return null;
     }
 
     @Override
