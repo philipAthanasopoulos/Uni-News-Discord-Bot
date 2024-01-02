@@ -52,11 +52,6 @@ public class Scraper implements IScraper {
     }
 
     @Override
-    public String summarizeScrapedData() {
-        return null;
-    }
-
-    @Override
     public Set<String> getListOfTags(@NotNull Document doc) {
         Set<String> tags = new TreeSet<>();
         Elements elements = doc.getAllElements();

@@ -22,14 +22,6 @@ public interface IScraper {
     String scrapeTagFromDocument(Document doc , String tag);
 
     /**
-     * Summarizes the scraped data. Composes a string containing the summary
-     * 
-     * @return a string with the summary of the scraped data
-     * @throws Exception if no scraped data is available
-     */
-    String summarizeScrapedData() throws Exception;
-
-    /**
      * Returns a list of the tags that have been scraped
      * @param doc the document to scrape
      * @return a set of the tags that have been scraped
