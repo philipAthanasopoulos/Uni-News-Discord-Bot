@@ -6,23 +6,23 @@ public class DiscordSlideShow {
     private final ArrayList<String> slides;
     private int currentSlideIndex = 0;
 
-    public DiscordSlideShow(){
+    public DiscordSlideShow() {
         slides = new ArrayList<>();
     }
 
-    public void moveToNextSlide(){
+    public void moveToNextSlide() {
         currentSlideIndex++;
-        if(currentSlideIndex >= slides.size())
+        if (currentSlideIndex >= slides.size())
             currentSlideIndex = 0;
     }
 
-    public void moveToPreviousSlide(){
+    public void moveToPreviousSlide() {
         currentSlideIndex--;
-        if(currentSlideIndex < 0)
+        if (currentSlideIndex < 0)
             currentSlideIndex = slides.size() - 1;
     }
 
-    public void addSlide(String slide){
+    public void addSlide(String slide) {
         slides.add(slide);
     }
 

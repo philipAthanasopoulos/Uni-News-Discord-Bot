@@ -18,14 +18,14 @@ public class WebsiteMonitor extends Thread {
 
     @Override
     public void run() {
-        while(true) {
+        while (true) {
             scraper.refreshNewsDocuments();
             System.out.println("News refreshed at " + java.time.LocalTime.now());
             try {
-                Thread.sleep(60000L * refreshRateInMinutes); //minutes
-            } catch (InterruptedException e) {
+                Thread.sleep(60000 * refreshRateInMinutes); //minutes
+            } catch (Exception e) {
                 System.out.println(Unicodes.red + "WebsiteMonitor thread interrupted!" + Unicodes.reset);
             }
-        }
+       ; }
     }
 }

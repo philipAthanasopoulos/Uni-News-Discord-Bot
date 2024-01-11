@@ -76,7 +76,12 @@ public class App extends Application {
         // Submit button action
         scrapeDocumentButton.setOnAction(e -> {
             String siteLink = siteLabelInput.getText();
-            globalDocument = scraper.scrapeSite(siteLink);
+
+            try {
+                globalDocument = scraper.scrapeSite(siteLink);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
 
             if(siteLabelInput.getText().isEmpty() || globalDocument == null) {
                 // Alert the user to enter a site

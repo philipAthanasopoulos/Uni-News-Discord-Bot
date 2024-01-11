@@ -1,6 +1,7 @@
 package Discord;
 
 import app.Unicodes;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
@@ -9,24 +10,24 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.jetbrains.annotations.NotNull;
-import net.dv8tion.jda.api.*;
+
 import java.util.Objects;
 
 /**
  * The BotListeners class is responsible for listening to the Discord server and responding events like
- *messages, button clicks etc.
+ * messages, button clicks etc.
  */
 public class BotListeners extends ListenerAdapter {
     private final JDA jda;
-    private final DiscordNewsPresenter newsPresenter;
     private DiscordSlideShow slideShow;
+    private final DiscordNewsPresenter newsPresenter;
 
     public BotListeners(JDA jda) {
         this.jda = jda;
         newsPresenter = new DiscordNewsPresenter();
     }
 
-   public void onGuildJoin(GuildJoinEvent event) {
+    public void onGuildJoin(GuildJoinEvent event) {
         String serverName = event.getGuild().getName();
         System.out.println("Joined server: " + Unicodes.green + serverName + Unicodes.reset);
 
@@ -41,7 +42,7 @@ public class BotListeners extends ListenerAdapter {
         TextChannel channel = event.getChannel().asTextChannel();
         String message = event.getMessage().getContentRaw();
 
-        switch(message){
+        switch (message) {
             case "!ping":
                 playPingPong(channel);
                 break;
@@ -56,18 +57,10 @@ public class BotListeners extends ListenerAdapter {
                 break;
             case "!clear":
                 //delete bots messages
-                for(Message oldMessage : channel.getIterableHistory())
-                    if(oldMessage.getAuthor().equals(jda.getSelfUser()))
-                        oldMessage.delete().queue();
+                for (Message oldMessage : channel.getIterableHistory())
+                    if (oldMessage.getAuthor().equals(jda.getSelfUser())) oldMessage.delete().queue();
             case "!help":
-                channel.sendMessage("Commands:\n" +
-                        "**!ping** - Pong!\n" +
-                        "**!news** - Get all news\n" +
-                        "**!latest news** - Get latest news article\n" +
-                        "**!slide** - Get all news in a slide show\n" +
-                        "**!clear** - Clear all bot messages\n" +
-                        "**!help** - Get help")
-                        .queue();
+                channel.sendMessage("Commands:\n" + "**!ping** - Pong!\n" + "**!news** - Get all news\n" + "**!latest news** - Get latest news article\n" + "**!slide** - Get all news in a slide show\n" + "**!clear** - Clear all bot messages\n" + "**!help** - Get help").queue();
                 break;
             default:
                 return;
@@ -81,16 +74,14 @@ public class BotListeners extends ListenerAdapter {
 
     private void sendNewsInSlideShow(TextChannel channel) {
         this.slideShow = newsPresenter.getNewsAsDiscordSlideShow();
-        Button deleteButton = Button.secondary("delete-article",Unicodes.redXEmoji);
-        Button nextButton = Button.primary("next-article","➡️");
-        Button previousButton = Button.primary("previous-article","⬅️");
-        channel.sendMessage(slideShow.getCurrentSlide())
-                .setActionRow(deleteButton,previousButton,nextButton)
-                .complete();
+        Button deleteButton = Button.secondary("delete-article", Unicodes.redXEmoji);
+        Button nextButton = Button.primary("next-article", "➡️");
+        Button previousButton = Button.primary("previous-article", "⬅️");
+        channel.sendMessage(slideShow.getCurrentSlide()).setActionRow(deleteButton, previousButton, nextButton).complete();
     }
 
     private void sendAllNewsMessage(TextChannel channel) {
-        for(String message : newsPresenter.getNewsAsDiscordMessages())
+        for (String message : newsPresenter.getNewsAsDiscordMessages())
             channel.sendMessage(message).queue();
     }
 
@@ -100,10 +91,10 @@ public class BotListeners extends ListenerAdapter {
 
     @Override
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
-        if(event.getUser().isBot()) return;
+        if (event.getUser().isBot()) return;
 
         String button_id = event.getButton().getId();
-        switch(Objects.requireNonNull(button_id)){
+        switch (Objects.requireNonNull(button_id)) {
             case "next-article":
                 slideShow.moveToNextSlide();
                 event.getMessage().editMessage(slideShow.getCurrentSlide()).queue();

@@ -1,19 +1,19 @@
 package Scraper;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import java.util.*;
-
+import app.Unicodes;
+import javafx.stage.FileChooser;
 import org.jetbrains.annotations.NotNull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import app.Unicodes;
-
-import javafx.stage.FileChooser;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * This class implements the IScraper interface and provides methods to scrape HTML tags from websites.
@@ -21,24 +21,14 @@ import javafx.stage.FileChooser;
  * The scraped data is saved to a file in the specified directory.
  * The class provides methods to scrape tags from a single website, multiple websites, and multiple websites with multiple tags.
  * The class also includes color codes for console output to indicate success or failure of the scraping process.
- * 
+ *
  * @author Philip Athanasopoulos
  */
 
 public class Scraper implements IScraper {
-
-
     @Override
-    public Document scrapeSite(String link) {
-        try {
-            Document doc;
-            doc = Jsoup.connect(link).get();
-            return doc;
-        }
-        catch (Exception e) {
-            System.out.println("Error: " + Unicodes.red + e + Unicodes.reset);
-            return null;
-        }
+    public Document scrapeSite(String link) throws Exception{
+        return Jsoup.connect(link).get();
     }
 
     @Override
@@ -47,7 +37,7 @@ public class Scraper implements IScraper {
         List<String> titles = new ArrayList<>();
         links.forEach(link -> titles.add(link.text()));
         StringBuilder result = new StringBuilder();
-        for(String title : titles) result.append(title).append("\n");
+        for (String title : titles) result.append(title).append("\n");
         return result.toString();
     }
 
@@ -70,28 +60,28 @@ public class Scraper implements IScraper {
     }
 
     public boolean saveScrapedText(String text) {
-       FileChooser fileChooser = new FileChooser();
-       fileChooser.setTitle("Save scraped text");
-       fileChooser.getExtensionFilters().addAll(
-           new FileChooser.ExtensionFilter("Text Files", "*.txt"),
-           new FileChooser.ExtensionFilter("All Files", "*.*")
-       );
-       File file = fileChooser.showSaveDialog(null);
-       if(file != null) {
-              try {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save scraped text");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Text Files", "*.txt"),
+                new FileChooser.ExtensionFilter("All Files", "*.*")
+        );
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
                 FileWriter writer = new FileWriter(file);
                 writer.write(text);
                 writer.close();
                 return true;
-              } catch (IOException e) {
+            } catch (IOException e) {
                 System.out.println("Error: " + Unicodes.red + e + Unicodes.reset);
                 return false;
-              }
-         } else {
-              return false;
-       }
+            }
+        } else {
+            return false;
+        }
     }
 
-    public static void main(String[] args) {     
+    public static void main(String[] args) {
     }
 }

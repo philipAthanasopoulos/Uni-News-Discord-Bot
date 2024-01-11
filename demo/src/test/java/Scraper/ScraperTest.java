@@ -16,7 +16,7 @@ public class ScraperTest {
     private static Scraper scraper = new Scraper();
 
     @Test
-    public void scrapeSiteTest() {
+    public void scrapeSiteTest() throws Exception {
         ArrayList<String> links = new ArrayList<>();
         links.add("https://www.example.com");
         links.add("https://www.google.com");
@@ -34,7 +34,7 @@ public class ScraperTest {
     }
 
     @Test
-    public void scrapeTagFromDocumentTest() {
+    public void scrapeTagFromDocumentTest() throws Exception {
         String link = "https://www.example.com";
         Document doc = scraper.scrapeSite(link);
         String tag = "title";
@@ -44,7 +44,7 @@ public class ScraperTest {
     }
 
     @Test
-    public void getListOfTagsTest() {
+    public void getListOfTagsTest() throws Exception {
         String link = "https://www.example.com";
         Document doc = scraper.scrapeSite(link);
         Set<String> tags = scraper.getListOfTags(doc);
@@ -53,7 +53,7 @@ public class ScraperTest {
     }
 
     @Test
-    public void getListOfClassesTest() {
+    public void getListOfClassesTest() throws Exception {
         String link = "https://www.example.com";
         Document doc = scraper.scrapeSite(link);
         Set<String> classes = scraper.getListOfClasses(doc);
