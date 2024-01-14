@@ -2,9 +2,7 @@ package Discord;
 
 import Scraper.Article;
 import Scraper.UoiScraper;
-
 import java.util.ArrayList;
-
 
 /**
  * The News presenter is responsible for formatting the news articles for Discord.
@@ -15,10 +13,10 @@ import java.util.ArrayList;
  */
 public class DiscordNewsPresenter {
     private final int MAX_DISCORD_MESSAGE_LENGTH = 2000;
-    private final UoiScraper uoiScraper;
+    private  UoiScraper scraper;
 
-    public DiscordNewsPresenter() {
-        uoiScraper = new UoiScraper();
+    public DiscordNewsPresenter(UoiScraper scraper) {
+        this.scraper = scraper;
     }
 
     public String getArticleAsDiscordMessage(Article article) {
@@ -32,20 +30,20 @@ public class DiscordNewsPresenter {
 
     public DiscordSlideShow getNewsAsDiscordSlideShow() {
         DiscordSlideShow slideShow = new DiscordSlideShow();
-        for (Article article : uoiScraper.getArticles())
+        for (Article article : scraper.getArticles())
             slideShow.addSlide(getArticleAsDiscordMessage(article));
         return slideShow;
     }
 
     public ArrayList<String> getNewsAsDiscordMessages() {
         ArrayList<String> messages = new ArrayList<>();
-        for (Article article : uoiScraper.getArticles())
+        for (Article article : scraper.getArticles())
             messages.add(getArticleAsDiscordMessage(article));
         return messages;
     }
 
     public String getLatestNewsAsDiscordMessage() {
-        Article article = uoiScraper.getLatestArticle();
+        Article article = scraper.getLatestArticle();
         return getArticleAsDiscordMessage(article);
     }
 

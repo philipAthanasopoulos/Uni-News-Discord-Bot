@@ -1,7 +1,10 @@
 package Discord;
 
+import NewsMonitor.NewsMonitor;
+import Scraper.UoiScraper;
 import app.Unicodes;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
@@ -10,6 +13,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
 import java.util.Objects;
 
@@ -19,12 +23,17 @@ import java.util.Objects;
  */
 public class BotListeners extends ListenerAdapter {
     private final JDA jda;
+    private UoiScraper scraper;
+    private NewsMonitor newsMonitor;
     private DiscordSlideShow slideShow;
     private final DiscordNewsPresenter newsPresenter;
 
     public BotListeners(JDA jda) {
         this.jda = jda;
-        newsPresenter = new DiscordNewsPresenter();
+        this.scraper = new UoiScraper();
+        newsPresenter = new DiscordNewsPresenter(scraper);
+        newsMonitor = new NewsMonitor(scraper,this);
+        startNewsMonitor();
     }
 
     public void onGuildJoin(GuildJoinEvent event) {
@@ -80,6 +89,18 @@ public class BotListeners extends ListenerAdapter {
         channel.sendMessage(slideShow.getCurrentSlide()).setActionRow(deleteButton, previousButton, nextButton).complete();
     }
 
+    public void sendNewsInSlideShowToAllServers() {
+        //replace with this code block when ready to deploy
+//        for(Guild server: jda.getGuilds()) {
+//            sendNewsInSlideShow((TextChannel) server.getDefaultChannel());
+//        }
+        TextChannel testChannel = jda.getTextChannelById("1158488833868976188");
+        sendNewsInSlideShow(testChannel);
+
+        System.out.println(Unicodes.green + "Sent update to all servers" + Unicodes.reset);
+
+    }
+
     private void sendAllNewsMessage(TextChannel channel) {
         for (String message : newsPresenter.getNewsAsDiscordMessages())
             channel.sendMessage(message).queue();
@@ -110,5 +131,13 @@ public class BotListeners extends ListenerAdapter {
                 break;
         }
         event.deferEdit().queue();
+    }
+
+    public void startNewsMonitor() {
+        newsMonitor.start();
+    }
+
+    public boolean isSlideShowNull() {
+        return slideShow == null;
     }
 }

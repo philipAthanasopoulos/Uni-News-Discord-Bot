@@ -12,8 +12,6 @@ import java.util.ArrayList;
 
 /**
  * This class is responsible for scraping the news from the CSE department of the University of Ioannina.
- * Methods provided use MarkDown characters like "*" , ">" , "#" to format the messages for Discord.
- *
  * @author Philip Athanasopoulos
  */
 public class UoiScraper extends Scraper {
@@ -22,6 +20,7 @@ public class UoiScraper extends Scraper {
     private Document latestNewsDocument = null;
     private final ArrayList<Article> articles;
     private final WebsiteMonitor websiteMonitor;
+    private volatile boolean needToSendUpdates = false;
 
     public UoiScraper() {
         articles = new ArrayList<>();
@@ -35,14 +34,17 @@ public class UoiScraper extends Scraper {
     }
 
     public void refreshNewsDocuments() {
-
         try{
-            latestNewsDocument = scrapeSite(newsEndpoint);
-            articles.clear();
-            for (String link : getNewsLinks()) {
-                Document articleDocument = scrapeSite(link);
-                removeUnwantedElements(articleDocument);
-                articles.add(getArticleFromDocument(articleDocument));
+            Document freshNewsDocument = scrapeSite(newsEndpoint);
+            if (!freshNewsDocument.equals(latestNewsDocument)) {
+                latestNewsDocument = freshNewsDocument;
+                articles.clear();
+                for (String link : getNewsLinks()) {
+                    Document articleDocument = scrapeSite(link);
+                    removeUnwantedElements(articleDocument);
+                    articles.add(getArticleFromDocument(articleDocument));
+                }
+                setNeedToSendUpdates(true);
             }
         }catch (Exception e) {
             System.out.println(Unicodes.red + "Something went wrong while refreshing the news!" + Unicodes.reset);
@@ -85,5 +87,14 @@ public class UoiScraper extends Scraper {
 
     public Article getLatestArticle() {
         return this.articles.get(0);
+    }
+
+
+    public boolean needsToSendUpdates() {
+        return needToSendUpdates;
+    }
+
+    public void setNeedToSendUpdates(boolean needToSendUpdates) {
+        this.needToSendUpdates = needToSendUpdates;
     }
 }
