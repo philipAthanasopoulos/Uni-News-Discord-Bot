@@ -8,10 +8,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.net.ConnectException;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
 /**
  * This class is responsible for scraping the news from the CSE department of the University of Ioannina.
+ *
  * @author Philip Athanasopoulos
  */
 public class UoiScraper extends Scraper {
@@ -34,21 +38,33 @@ public class UoiScraper extends Scraper {
     }
 
     public void refreshNewsDocuments() {
-        try{
+        try {
             Document freshNewsDocument = scrapeSite(newsEndpoint);
-            if (!freshNewsDocument.equals(latestNewsDocument)) {
+            if (newsHaveChanged(freshNewsDocument)) {
                 latestNewsDocument = freshNewsDocument;
                 articles.clear();
-                for (String link : getNewsLinks()) {
-                    Document articleDocument = scrapeSite(link);
+                for (String newsArticleLink : getNewsLinks()) {
+                    Document articleDocument = scrapeSite(newsArticleLink);
                     removeUnwantedElements(articleDocument);
                     articles.add(getArticleFromDocument(articleDocument));
                 }
                 setNeedToSendUpdates(true);
             }
-        }catch (Exception e) {
+        } catch (ConnectException connectException) {
+            System.out.println(Unicodes.red + "Could not connect to CSE website" + Unicodes.reset);
+        } catch (SocketException socketException) {
+            System.out.println(Unicodes.red + "Something went wrong while trying to access socket" + Unicodes.reset);
+        } catch (SocketTimeoutException socketTimeoutException) {
+            System.out.println(Unicodes.red + "Timed out while trying to receive data" + Unicodes.reset);
+        } catch (Exception e) {
             System.out.println(Unicodes.red + "Something went wrong while refreshing the news!" + Unicodes.reset);
+        } finally {
+            refreshNewsDocuments();
         }
+    }
+
+    private boolean newsHaveChanged(Document freshNewsDocument) {
+        return latestNewsDocument == null || !freshNewsDocument.text().equals(latestNewsDocument.text());
     }
 
     private Article getArticleFromDocument(Document document) {
@@ -66,12 +82,7 @@ public class UoiScraper extends Scraper {
     }
 
     private void removeUnwantedElements(@NotNull Document document) {
-        Elements elementsToRemove = document.select("a:contains(WordPress)," +
-                        "a:contains(online)," +
-                        "a:contains(free)," +
-                        "a:contains(course)," +
-                        "a:contains(udemy)")
-                .remove();
+        Elements elementsToRemove = document.select("a:contains(WordPress)," + "a:contains(online)," + "a:contains(free)," + "a:contains(course)," + "a:contains(udemy)").remove();
         elementsToRemove.forEach(Element::remove);
     }
 
@@ -88,7 +99,6 @@ public class UoiScraper extends Scraper {
     public Article getLatestArticle() {
         return this.articles.get(0);
     }
-
 
     public boolean needsToSendUpdates() {
         return needToSendUpdates;

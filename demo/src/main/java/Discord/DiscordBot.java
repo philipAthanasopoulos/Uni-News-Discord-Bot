@@ -7,8 +7,6 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
 public class DiscordBot {
-
-
     public static String banner = "MMMMMMMMMMMMMMMMMMMMMMMMMMWNXKO0NMMMMMMMMMMMMMMN0OKXNWMMMMMMMMMMMMMMMMMMMMMMMMMM\n" +
             "MMMMMMMMMMMMMMMMMMMMMWNK0kxdolllONWWNNNNNNNNWWNOlclodxk0KNWMMMMMMMMMMMMMMMMMMMMM\n" +
             "MMMMMMMMMMMMMMMMMMWXOdolcccccccclodoooooooooodolcccccccclodOXWMMMMMMMMMMMMMMMMMM\n" +
@@ -33,7 +31,6 @@ public class DiscordBot {
             "MMMMMMMMMMMMMMMMMMWNKOxdlldKWMMMMMMMMMMMMMMMMMMMMMMWKdlldxOKNWMMMMMMMMMMMMMMMMMM\n" +
             "MMMMMMMMMMMMMMMMMMMMMMWNK0XWMMMMMMMMMMMMMMMMMMMMMMMMWX0KNWMMMMMMMMMMMMMMMMMMMMMM\n";
 
-
     public static void main(String[] args) throws InterruptedException {
 
         JDA jda = JDABuilder.createDefault(DiscordToken.token, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS))
@@ -41,8 +38,8 @@ public class DiscordBot {
                 .build()
                 .awaitReady();
 
-        for(char letter: banner.toCharArray()){
-            if(letter == 'c') System.out.print(Unicodes.blue + letter + Unicodes.reset);
+        for (char letter : banner.toCharArray()) {
+            if (letter == 'c') System.out.print(Unicodes.blue + letter + Unicodes.reset);
             else System.out.print(Unicodes.white + letter + Unicodes.reset);
         }
 

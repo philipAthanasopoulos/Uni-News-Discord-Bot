@@ -13,13 +13,13 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
 
 import java.util.Objects;
 
 /**
  * The BotListeners class is responsible for listening to the Discord server and responding events like
  * messages, button clicks etc.
+ * @Author Philip Athanasopoulos
  */
 public class BotListeners extends ListenerAdapter {
     private final JDA jda;
@@ -32,7 +32,7 @@ public class BotListeners extends ListenerAdapter {
         this.jda = jda;
         this.scraper = new UoiScraper();
         newsPresenter = new DiscordNewsPresenter(scraper);
-        newsMonitor = new NewsMonitor(scraper,this);
+        newsMonitor = new NewsMonitor(scraper, this);
         startNewsMonitor();
     }
 
@@ -78,7 +78,8 @@ public class BotListeners extends ListenerAdapter {
     }
 
     private void playPingPong(TextChannel channel) {
-        channel.sendMessage("Pong!").queue();
+        channel.sendMessage("Pong! 🏓").queue();
+
     }
 
     private void sendNewsInSlideShow(TextChannel channel) {
@@ -90,15 +91,8 @@ public class BotListeners extends ListenerAdapter {
     }
 
     public void sendNewsInSlideShowToAllServers() {
-        //replace with this code block when ready to deploy
-//        for(Guild server: jda.getGuilds()) {
-//            sendNewsInSlideShow((TextChannel) server.getDefaultChannel());
-//        }
-        TextChannel testChannel = jda.getTextChannelById("1158488833868976188");
-        sendNewsInSlideShow(testChannel);
-
+        for (Guild server : jda.getGuilds()) sendNewsInSlideShow((TextChannel) server.getDefaultChannel());
         System.out.println(Unicodes.green + "Sent update to all servers" + Unicodes.reset);
-
     }
 
     private void sendAllNewsMessage(TextChannel channel) {
@@ -135,9 +129,5 @@ public class BotListeners extends ListenerAdapter {
 
     public void startNewsMonitor() {
         newsMonitor.start();
-    }
-
-    public boolean isSlideShowNull() {
-        return slideShow == null;
     }
 }

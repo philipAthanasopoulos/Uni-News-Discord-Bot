@@ -10,7 +10,7 @@ import app.Unicodes;
  */
 public class WebsiteMonitor extends Thread {
     private final UoiScraper scraper;
-    private int refreshRateInMinutes = 10;
+    private final int refreshRateInMinutes = 10;
 
     public WebsiteMonitor(UoiScraper scraper) {
         this.scraper = scraper;
@@ -26,6 +26,6 @@ public class WebsiteMonitor extends Thread {
             } catch (Exception e) {
                 System.out.println(Unicodes.red + "WebsiteMonitor thread interrupted!" + Unicodes.reset);
             }
-       ; }
+        }
     }
 }
