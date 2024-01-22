@@ -39,8 +39,8 @@ public class DiscordBot {
                 .awaitReady();
 
         for (char letter : banner.toCharArray()) {
-            if (letter == 'c') System.out.print(Unicodes.blue + letter + Unicodes.reset);
-            else System.out.print(Unicodes.white + letter + Unicodes.reset);
+            if(letter == 'M') System.out.print(letter);
+            else System.out.print(Unicodes.blue + letter + Unicodes.reset);
         }
 
         BotListeners listeners = new BotListeners(jda);

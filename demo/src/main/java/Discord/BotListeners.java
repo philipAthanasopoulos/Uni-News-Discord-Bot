@@ -17,14 +17,15 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
- * The BotListeners class is responsible for listening to the Discord server and responding events like
+ * The BotListeners class is responsible for listening to the Discord server and responding to events like
  * messages, button clicks etc.
- * @Author Philip Athanasopoulos
+ *
+ * @author Philip Athanasopoulos
  */
 public class BotListeners extends ListenerAdapter {
     private final JDA jda;
     private UoiScraper scraper;
-    private NewsMonitor newsMonitor;
+    private final NewsMonitor newsMonitor;
     private DiscordSlideShow slideShow;
     private final DiscordNewsPresenter newsPresenter;
 

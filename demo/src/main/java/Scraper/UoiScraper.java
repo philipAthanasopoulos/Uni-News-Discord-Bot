@@ -8,9 +8,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.net.ConnectException;
-import java.net.SocketException;
-import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
 /**
@@ -19,8 +16,7 @@ import java.util.ArrayList;
  * @author Philip Athanasopoulos
  */
 public class UoiScraper extends Scraper {
-    private final String CSElink = "https://www.cse.uoi.gr/";
-    private final String newsEndpoint = CSElink + "nea/";
+    private final String cseNewsLink = "https://www.cse.uoi.gr/nea/";
     private Document latestNewsDocument = null;
     private final ArrayList<Article> articles;
     private final WebsiteMonitor websiteMonitor;
@@ -28,7 +24,7 @@ public class UoiScraper extends Scraper {
 
     public UoiScraper() {
         articles = new ArrayList<>();
-        System.out.println(Unicodes.pink + "Scraper initialized!" + Unicodes.reset);
+        printScraperInitializationMessage();
         websiteMonitor = new WebsiteMonitor(this);
         websiteMonitor.start();
     }
@@ -39,7 +35,7 @@ public class UoiScraper extends Scraper {
 
     public void refreshNewsDocuments() {
         try {
-            Document freshNewsDocument = scrapeSite(newsEndpoint);
+            Document freshNewsDocument = scrapeSite(cseNewsLink);
             if (newsHaveChanged(freshNewsDocument)) {
                 latestNewsDocument = freshNewsDocument;
                 articles.clear();
@@ -50,18 +46,33 @@ public class UoiScraper extends Scraper {
                 }
                 setNeedToSendUpdates(true);
             }
-        } catch (ConnectException connectException) {
-            System.out.println(Unicodes.red + "Could not connect to CSE website" + Unicodes.reset);
-        } catch (SocketException socketException) {
-            System.out.println(Unicodes.red + "Something went wrong while trying to access socket" + Unicodes.reset);
-        } catch (SocketTimeoutException socketTimeoutException) {
-            System.out.println(Unicodes.red + "Timed out while trying to receive data" + Unicodes.reset);
-        } catch (Exception e) {
-            System.out.println(Unicodes.red + "Something went wrong while refreshing the news!" + Unicodes.reset);
-        } finally {
+        } catch (Exception exception) {
+            switch (exception.getClass().getSimpleName()) {
+                case "connectException":
+                    printErrorMessage("Could not connect to CSE website");
+                    break;
+                case "socketException":
+                    printErrorMessage("Something went wrong while trying to access socket");
+                    break;
+                case "socketTimeoutException":
+                    printErrorMessage("Timed out while trying to receive data");
+                    break;
+                default:
+                    printErrorMessage("Something went wrong while refreshing the news");
+            }
+            printAttentionMessage("Retrying news refresh...");
             refreshNewsDocuments();
         }
     }
+
+    private void printErrorMessage(String message) {
+        System.out.println(Unicodes.red + message + Unicodes.reset);
+    }
+
+    private void printAttentionMessage(String message) {
+        System.out.println(Unicodes.yellow + message + Unicodes.reset);
+    }
+
 
     private boolean newsHaveChanged(Document freshNewsDocument) {
         return latestNewsDocument == null || !freshNewsDocument.text().equals(latestNewsDocument.text());

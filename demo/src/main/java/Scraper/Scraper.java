@@ -82,6 +82,7 @@ public class Scraper implements IScraper {
         }
     }
 
-    public static void main(String[] args) {
+    protected void printScraperInitializationMessage() {
+        System.out.println(Unicodes.pink + "Scraper initialized!" + Unicodes.reset);
     }
 }
