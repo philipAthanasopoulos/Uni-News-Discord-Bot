@@ -1,6 +1,6 @@
 package Discord;
 
-import Scraper.Article;
+import domain.Article;
 import Scraper.UoiScraper;
 
 import java.util.ArrayList;

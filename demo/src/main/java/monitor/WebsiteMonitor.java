@@ -1,4 +1,4 @@
-package WebsiteMonitor;
+package monitor;
 
 import Scraper.UoiScraper;
 import app.Unicodes;

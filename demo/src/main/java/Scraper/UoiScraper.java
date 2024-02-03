@@ -1,6 +1,7 @@
 package Scraper;
 
-import WebsiteMonitor.WebsiteMonitor;
+import domain.Article;
+import monitor.WebsiteMonitor;
 import app.Unicodes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

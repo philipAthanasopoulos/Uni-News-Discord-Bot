@@ -1,6 +1,6 @@
 package Discord;
 
-import NewsMonitor.NewsMonitor;
+import monitor.NewsMonitor;
 import Scraper.UoiScraper;
 import app.Unicodes;
 import net.dv8tion.jda.api.JDA;
