@@ -24,7 +24,7 @@ import java.util.Objects;
  */
 public class BotListeners extends ListenerAdapter {
     private final JDA jda;
-    private UoiScraper scraper;
+    private final UoiScraper scraper;
     private final NewsMonitor newsMonitor;
     private DiscordSlideShow slideShow;
     private final DiscordNewsPresenter newsPresenter;
@@ -53,29 +53,31 @@ public class BotListeners extends ListenerAdapter {
         String message = event.getMessage().getContentRaw();
 
         switch (message) {
-            case "!ping":
-                playPingPong(channel);
-                break;
-            case "!news":
-                sendAllNewsMessage(channel);
-                break;
-            case "!latest news":
-                sendLatestNewsMessage(channel);
-                break;
-            case "!slide":
-                sendNewsInSlideShow(channel);
-                break;
-            case "!clear":
-                //delete bots messages
-                for (Message oldMessage : channel.getIterableHistory())
-                    if (oldMessage.getAuthor().equals(jda.getSelfUser())) oldMessage.delete().queue();
-            case "!help":
-                channel.sendMessage("Commands:\n" + "**!ping** - Pong!\n" + "**!news** - Get all news\n" + "**!latest news** - Get latest news article\n" + "**!slide** - Get all news in a slide show\n" + "**!clear** - Clear all bot messages\n" + "**!help** - Get help").queue();
-                break;
-            default:
-                return;
+            case "!ping" -> playPingPong(channel);
+
+            case "!news" -> sendAllNewsMessage(channel);
+
+            case "!latest news" -> sendLatestNewsMessage(channel);
+
+            case "!slide" -> sendNewsInSlideShow(channel);
+
+            case "!clear" -> deleteAllBotMessages(channel);
+
+            case "!help" -> channel.sendMessage("Commands:\n" +
+                            "**!ping** - Pong!\n" +
+                            "**!news** - Get all news\n" +
+                            "**!latest news** - Get latest news article\n" +
+                            "**!slide** - Get all news in a slide show\n" +
+                            "**!clear** - Clear all bot messages\n" +
+                            "**!help** - Get help")
+                    .queue();
         }
         System.out.println("Command: " + message + " from server: " + Unicodes.green + serverName + Unicodes.reset);
+    }
+
+    private void deleteAllBotMessages(TextChannel channel) {
+        for (Message oldMessage : channel.getIterableHistory())
+            if (oldMessage.getAuthor().equals(jda.getSelfUser())) oldMessage.delete().queue();
     }
 
     private void playPingPong(TextChannel channel) {
@@ -110,20 +112,18 @@ public class BotListeners extends ListenerAdapter {
         if (event.getUser().isBot()) return;
 
         String button_id = event.getButton().getId();
+
         switch (Objects.requireNonNull(button_id)) {
-            case "next-article":
+            case "next-article" -> {
                 slideShow.moveToNextSlide();
                 event.getMessage().editMessage(slideShow.getCurrentSlide()).queue();
-                break;
-            case "previous-article":
+            }
+            case "previous-article" -> {
                 slideShow.moveToPreviousSlide();
                 event.getMessage().editMessage(slideShow.getCurrentSlide()).queue();
-                break;
-            case "delete-article":
-                event.getMessage().delete().queue();
-                break;
-            default:
-                break;
+            }
+            case "delete-article" -> event.getMessage().delete().queue();
+
         }
         event.deferEdit().queue();
     }

@@ -31,12 +31,18 @@ public class DiscordBot {
             "MMMMMMMMMMMMMMMMMMWNKOxdlldKWMMMMMMMMMMMMMMMMMMMMMMWKdlldxOKNWMMMMMMMMMMMMMMMMMM\n" +
             "MMMMMMMMMMMMMMMMMMMMMMWNK0XWMMMMMMMMMMMMMMMMMMMMMMMMWX0KNWMMMMMMMMMMMMMMMMMMMMMM\n";
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args)  {
 
-        JDA jda = JDABuilder.createDefault(DiscordToken.token, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS))
-                .setActivity(Activity.playing("with the UoI website"))
-                .build()
-                .awaitReady();
+        JDA jda = null;
+        try {
+            jda = JDABuilder.createDefault(DiscordToken.token, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS))
+                    .setActivity(Activity.playing("with the UoI website"))
+                    .build()
+                    .awaitReady();
+        } catch (InterruptedException e) {
+            System.out.println(Unicodes.red + "Could not create JDA" + Unicodes.reset);
+            throw new RuntimeException();
+        }
 
         for (char letter : banner.toCharArray()) {
             if(letter == 'M') System.out.print(letter);

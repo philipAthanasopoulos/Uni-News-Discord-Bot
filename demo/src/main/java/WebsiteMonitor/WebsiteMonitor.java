@@ -7,6 +7,8 @@ import app.Unicodes;
  * The WebsiteMonitor class is responsible for refreshing the news articles.
  * It is a thread that runs in the background and refreshes the news articles every X minutes.
  * It is used to keep the news articles up to date.
+ *
+ * @authro Philip Athanasopoulos
  */
 public class WebsiteMonitor extends Thread {
     private final UoiScraper scraper;
