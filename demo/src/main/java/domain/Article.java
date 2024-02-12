@@ -6,7 +6,7 @@ package domain;
  */
 public class Article {
     private final String title;
-    private final String content;
+    private String content;
     private final String link;
 
     public Article(String title, String content, String link) {
@@ -29,5 +29,9 @@ public class Article {
 
     public String toString() {
         return title + "\n" + content + "\n" + link;
+    }
+
+    public void appendLineToContent(String line) {
+        content += line + "\n";
     }
 }

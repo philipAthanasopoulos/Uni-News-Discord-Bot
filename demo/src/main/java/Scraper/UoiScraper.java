@@ -1,8 +1,8 @@
 package Scraper;
 
+import app.Unicodes;
 import domain.Article;
 import monitor.WebsiteMonitor;
-import app.Unicodes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jsoup.nodes.Document;
@@ -10,6 +10,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 /**
  * This class is responsible for scraping the news from the CSE department of the University of Ioannina.
@@ -83,7 +84,21 @@ public class UoiScraper extends Scraper {
         Element title = getDocumentTitle(document);
         Elements contents = getDocumentContents(document);
         String link = document.baseUri();
-        return new Article(title.text(), contents.text(), link);
+        Article article = new Article(title.text(), contents.text(), link);
+        for (String url : getExternalLinksFromDocument(document)) article.appendLineToContent(url);
+        return article;
+    }
+
+    private TreeSet<String> getExternalLinksFromDocument(Document document) {
+        var links = document.select(".cs-post-panel").select("a[target=_blank]");
+        TreeSet<String> urls = new TreeSet<>();
+        for (Element link : links) {
+            if (!link.text().isEmpty()) {
+                urls.add(link.attr("abs:href"));
+                System.out.println(link);
+            }
+        }
+        return urls;
     }
 
     private ArrayList<String> getNewsLinks() {

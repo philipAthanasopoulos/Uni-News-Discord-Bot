@@ -1,8 +1,8 @@
 package Discord;
 
-import monitor.NewsMonitor;
 import Scraper.UoiScraper;
 import app.Unicodes;
+import monitor.NewsMonitor;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -63,16 +63,20 @@ public class BotListeners extends ListenerAdapter {
 
             case "!clear" -> deleteAllBotMessages(channel);
 
-            case "!help" -> channel.sendMessage("Commands:\n" +
-                            "**!ping** - Pong!\n" +
-                            "**!news** - Get all news\n" +
-                            "**!latest news** - Get latest news article\n" +
-                            "**!slide** - Get all news in a slide show\n" +
-                            "**!clear** - Clear all bot messages\n" +
-                            "**!help** - Get help")
-                    .queue();
+            case "!help" -> displayHelpMenu(channel);
         }
         System.out.println("Command: " + message + " from server: " + Unicodes.green + serverName + Unicodes.reset);
+    }
+
+    private void displayHelpMenu(TextChannel channel) {
+        channel.sendMessage("Commands:\n" +
+                        "**!ping** - Pong!\n" +
+                        "**!news** - Get all news\n" +
+                        "**!latest news** - Get latest news article\n" +
+                        "**!slide** - Get all news in a slide show\n" +
+                        "**!clear** - Clear all bot messages\n" +
+                        "**!help** - Get help")
+                .queue();
     }
 
     private void deleteAllBotMessages(TextChannel channel) {

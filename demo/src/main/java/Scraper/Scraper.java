@@ -26,6 +26,7 @@ import java.util.TreeSet;
  */
 
 public class Scraper implements IScraper {
+
     @Override
     public Document scrapeSite(String link) throws Exception {
         return Jsoup.connect(link).get();
