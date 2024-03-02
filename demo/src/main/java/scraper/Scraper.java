@@ -1,10 +1,11 @@
-package Scraper;
+package scraper;
 
 import app.Unicodes;
 import javafx.stage.FileChooser;
 import org.jetbrains.annotations.NotNull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.File;
@@ -36,7 +37,7 @@ public class Scraper implements IScraper {
     public String scrapeTagFromDocument(@NotNull Document document, String tag) {
         Elements links = document.select(tag);
         List<String> titles = new ArrayList<>();
-        links.forEach(link -> titles.add(link.text()));
+        for (Element link : links) titles.add(link.text());
         StringBuilder result = new StringBuilder();
         for (String title : titles) result.append(title).append("\n");
         return result.toString();
@@ -45,8 +46,7 @@ public class Scraper implements IScraper {
     @Override
     public Set<String> getListOfTags(@NotNull Document doc) {
         Set<String> tags = new TreeSet<>();
-        Elements elements = doc.getAllElements();
-        elements.forEach(element -> tags.add(element.tagName()));
+        for (Element element : doc.getAllElements()) tags.add(element.tagName());
         tags.remove("#root"); // Jsoup uses root to mark the beginning of the document , it's not an actual tag
         return tags;
     }
@@ -54,19 +54,16 @@ public class Scraper implements IScraper {
     @Override
     public Set<String> getListOfClasses(@NotNull Document doc) {
         Set<String> classes = new TreeSet<>();
-        Elements elements = doc.getAllElements();
-        elements.forEach(element -> classes.add("." + element.className())); // Classes should start with a dot
-        classes.remove("."); // A dot by itself is not a class , not sure why Jsoup adds it
+        for (Element element : doc.getAllElements()) classes.add("." + element.className());
+        classes.remove("."); // Classes should start with a dot
+        // A dot by itself is not a class , not sure why Jsoup adds it
         return classes;
     }
 
     public boolean saveScrapedText(String text) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save scraped text");
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Text Files", "*.txt"),
-                new FileChooser.ExtensionFilter("All Files", "*.*")
-        );
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text Files", "*.txt"), new FileChooser.ExtensionFilter("All Files", "*.*"));
         File file = fileChooser.showSaveDialog(null);
         if (file != null) {
             try {

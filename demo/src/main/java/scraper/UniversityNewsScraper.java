@@ -1,4 +1,4 @@
-package Scraper;
+package scraper;
 
 import app.Unicodes;
 import domain.Article;
@@ -13,22 +13,33 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 /**
- * This class is responsible for scraping the news from the CSE department of the University of Ioannina.
- *
  * @author Philip Athanasopoulos
  */
-public class UoiScraper extends Scraper {
-    private final String cseNewsLink = "https://www.cse.uoi.gr/nea/";
-    private Document latestNewsDocument = null;
-    private final ArrayList<Article> articles;
-    private final WebsiteMonitor websiteMonitor;
+public abstract class UniversityNewsScraper extends Scraper {
+    protected static String articleTitleClassname;
+    protected static String contentClassname;
+    protected String classnamesToBeRemoved;
+    protected String newsLink;
+    protected final ArrayList<Article> articles;
+    protected final WebsiteMonitor websiteMonitor;
+    protected Document latestNewsDocument = null;
     private volatile boolean needToSendUpdates = false;
 
-    public UoiScraper() {
+    public UniversityNewsScraper() {
         articles = new ArrayList<>();
-        printScraperInitializationMessage();
         websiteMonitor = new WebsiteMonitor(this);
         websiteMonitor.start();
+        printScraperInitializationMessage();
+    }
+
+    @NotNull
+    private static Elements getDocumentContents(@NotNull Document document) {
+        return document.select(contentClassname);
+    }
+
+    @Nullable
+    private static Element getDocumentTitle(@NotNull Document document) {
+        return document.select(articleTitleClassname).first();
     }
 
     public ArrayList<Article> getArticles() {
@@ -37,7 +48,7 @@ public class UoiScraper extends Scraper {
 
     public void refreshNewsDocuments() {
         try {
-            Document freshNewsDocument = scrapeSite(cseNewsLink);
+            Document freshNewsDocument = scrapeSite(newsLink);
             if (newsHaveChanged(freshNewsDocument)) {
                 latestNewsDocument = freshNewsDocument;
                 articles.clear();
@@ -75,52 +86,39 @@ public class UoiScraper extends Scraper {
         System.out.println(Unicodes.yellow + message + Unicodes.reset);
     }
 
-
     private boolean newsHaveChanged(Document freshNewsDocument) {
         return latestNewsDocument == null || !freshNewsDocument.text().equals(latestNewsDocument.text());
     }
 
     private Article getArticleFromDocument(Document document) {
-        Element title = getDocumentTitle(document);
-        Elements contents = getDocumentContents(document);
+        Element title = UniversityNewsScraper.getDocumentTitle(document);
+        Elements contents = UniversityNewsScraper.getDocumentContents(document);
         String link = document.baseUri();
         Article article = new Article(title.text(), contents.text(), link);
         for (String url : getExternalLinksFromDocument(document)) article.appendLineToContent(url);
         return article;
     }
 
-    private TreeSet<String> getExternalLinksFromDocument(Document document) {
-        var links = document.select(".cs-post-panel").select("a[target=_blank]");
+    protected TreeSet<String> getExternalLinksFromDocument(Document document) {
+        var links = selectExternalLinksFromArticle(document);
         TreeSet<String> urls = new TreeSet<>();
-        for (Element link : links) {
-            if (!link.text().isEmpty()) {
-                urls.add(link.attr("abs:href"));
-                System.out.println(link);
-            }
-        }
+        for (Element link : links)
+            if (!link.text().isEmpty()) urls.add(link.attr("abs:href"));
         return urls;
     }
 
-    private ArrayList<String> getNewsLinks() {
+    protected abstract Elements selectExternalLinksFromArticle(Document document);
+
+    protected ArrayList<String> getNewsLinks() {
         ArrayList<String> newsLinks = new ArrayList<>();
-        Elements links = latestNewsDocument.select(".cs-campus-info").select("h6").select("a[href]");
+        Elements links = selecteNewsLinksFromDocument();
         links.forEach(link -> newsLinks.add(link.attr("abs:href")));
         return newsLinks;
     }
 
     private void removeUnwantedElements(@NotNull Document document) {
-        Elements elementsToRemove = document.select("a:contains(WordPress)," + "a:contains(online)," + "a:contains(free)," + "a:contains(course)," + "a:contains(udemy)").remove();
+        Elements elementsToRemove = document.select(classnamesToBeRemoved).remove();
         elementsToRemove.forEach(Element::remove);
-    }
-
-    @NotNull
-    private static Elements getDocumentContents(@NotNull Document document) {
-        return document.select(".cs-editor-text");
-    }
-
-    @Nullable
-    private static Element getDocumentTitle(@NotNull Document document) {
-        return document.select(".cs-heading-sec").first();
     }
 
     public Article getLatestArticle() {
@@ -134,4 +132,6 @@ public class UoiScraper extends Scraper {
     public void setNeedToSendUpdates(boolean needToSendUpdates) {
         this.needToSendUpdates = needToSendUpdates;
     }
+
+    protected abstract Elements selecteNewsLinksFromDocument();
 }

@@ -1,22 +1,22 @@
-package Discord;
+package discord;
 
 import domain.Article;
-import Scraper.UoiScraper;
+import scraper.UoiCSENewsScraper;
 
 import java.util.ArrayList;
 
 /**
- * The News presenter is responsible for formatting the news articles for Discord.
- * It uses MarkDown characters like "*" , ">" , "#" to format the messages for Discord.
- * The News Presenter is the bridge between the Scraper and the Discord Bot.
+ * The News presenter is responsible for formatting the news articles for discord.
+ * It uses MarkDown characters like "*" , ">" , "#" to format the messages for discord.
+ * The News Presenter is the bridge between the scraper and the discord Bot.
  *
  * @author Philip Athanasopoulos
  */
 public class DiscordNewsPresenter {
     private final int MAX_DISCORD_MESSAGE_LENGTH = 2000;
-    private final UoiScraper scraper;
+    private final UoiCSENewsScraper scraper;
 
-    public DiscordNewsPresenter(UoiScraper scraper) {
+    public DiscordNewsPresenter(UoiCSENewsScraper scraper) {
         this.scraper = scraper;
     }
 

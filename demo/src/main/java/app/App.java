@@ -7,7 +7,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.jsoup.nodes.Document;
-import Scraper.Scraper;
+import scraper.Scraper;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -21,7 +21,7 @@ public class App extends Application {
     public void start(Stage primaryStage) {
 
         // Main window
-        primaryStage.setTitle("Web Scraper");
+        primaryStage.setTitle("Web scraper");
 
         // Window expansion constraints
         primaryStage.setResizable(true);

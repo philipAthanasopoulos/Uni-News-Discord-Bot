@@ -1,6 +1,6 @@
 package monitor;
 
-import Scraper.UoiScraper;
+import scraper.UniversityNewsScraper;
 import app.Unicodes;
 
 /**
@@ -8,12 +8,12 @@ import app.Unicodes;
  * It is a thread that runs in the background and refreshes the news articles every X minutes.
  * It is used to keep the news articles up to date.
  *
- * @authro Philip Athanasopoulos
+ * @author Philip Athanasopoulos
  */
 public class WebsiteMonitor extends Thread {
-    private final UoiScraper scraper;
+    private final UniversityNewsScraper scraper;
 
-    public WebsiteMonitor(UoiScraper scraper) {
+    public WebsiteMonitor(UniversityNewsScraper scraper) {
         this.scraper = scraper;
     }
 

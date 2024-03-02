@@ -1,11 +1,11 @@
-package Scraper;
+package scraper;
 
 import org.jsoup.nodes.Document;
 
 import java.util.Set;
 
 /**
- * Interface for the Scraper class , which scrapes data from a site using the Jsoup library(@see documentation).
+ * Interface for the scraper class , which scrapes data from a site using the Jsoup library(@see documentation).
  *
  * @author Philip Athanasopoulos
  * @since 16-08-2023 (MM-DD-YYYY)

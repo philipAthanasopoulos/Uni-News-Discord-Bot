@@ -1,4 +1,4 @@
-package Discord;
+package discord;
 
 import app.Unicodes;
 import net.dv8tion.jda.api.JDA;
@@ -7,7 +7,8 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
 public class DiscordBot {
-    public static String banner = "MMMMMMMMMMMMMMMMMMMMMMMMMMWNXKO0NMMMMMMMMMMMMMMN0OKXNWMMMMMMMMMMMMMMMMMMMMMMMMMM\n" +
+    public static String banner =
+            "MMMMMMMMMMMMMMMMMMMMMMMMMMWNXKO0NMMMMMMMMMMMMMMN0OKXNWMMMMMMMMMMMMMMMMMMMMMMMMMM\n" +
             "MMMMMMMMMMMMMMMMMMMMMWNK0kxdolllONWWNNNNNNNNWWNOlclodxk0KNWMMMMMMMMMMMMMMMMMMMMM\n" +
             "MMMMMMMMMMMMMMMMMMWXOdolcccccccclodoooooooooodolcccccccclodOXWMMMMMMMMMMMMMMMMMM\n" +
             "MMMMMMMMMMMMMMMMMWKdccccccccccccccccccccccccccccccccccccccccdKWMMMMMMMMMMMMMMMMM\n" +

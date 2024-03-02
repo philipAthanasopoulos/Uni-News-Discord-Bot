@@ -1,4 +1,4 @@
-package Discord;
+package discord;
 
 import java.util.ArrayList;
 

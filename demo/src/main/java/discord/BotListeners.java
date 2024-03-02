@@ -1,6 +1,5 @@
-package Discord;
+package discord;
 
-import Scraper.UoiScraper;
 import app.Unicodes;
 import monitor.NewsMonitor;
 import net.dv8tion.jda.api.JDA;
@@ -13,25 +12,26 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.jetbrains.annotations.NotNull;
+import scraper.UoiCSENewsScraper;
 
 import java.util.Objects;
 
 /**
- * The BotListeners class is responsible for listening to the Discord server and responding to events like
+ * The BotListeners class is responsible for listening to the discord server and responding to events like
  * messages, button clicks etc.
  *
  * @author Philip Athanasopoulos
  */
 public class BotListeners extends ListenerAdapter {
     private final JDA jda;
-    private final UoiScraper scraper;
+    private final UoiCSENewsScraper scraper;
     private final NewsMonitor newsMonitor;
     private DiscordSlideShow slideShow;
     private final DiscordNewsPresenter newsPresenter;
 
     public BotListeners(JDA jda) {
         this.jda = jda;
-        this.scraper = new UoiScraper();
+        this.scraper = new UoiCSENewsScraper();
         newsPresenter = new DiscordNewsPresenter(scraper);
         newsMonitor = new NewsMonitor(scraper, this);
         startNewsMonitor();
@@ -65,18 +65,10 @@ public class BotListeners extends ListenerAdapter {
 
             case "!help" -> displayHelpMenu(channel);
         }
-        System.out.println("Command: " + message + " from server: " + Unicodes.green + serverName + Unicodes.reset);
     }
 
     private void displayHelpMenu(TextChannel channel) {
-        channel.sendMessage("Commands:\n" +
-                        "**!ping** - Pong!\n" +
-                        "**!news** - Get all news\n" +
-                        "**!latest news** - Get latest news article\n" +
-                        "**!slide** - Get all news in a slide show\n" +
-                        "**!clear** - Clear all bot messages\n" +
-                        "**!help** - Get help")
-                .queue();
+        channel.sendMessage("Commands:\n" + "**!ping** - Pong!\n" + "**!news** - Get all news\n" + "**!latest news** - Get latest news article\n" + "**!slide** - Get all news in a slide show\n" + "**!clear** - Clear all bot messages\n" + "**!help** - Get help").queue();
     }
 
     private void deleteAllBotMessages(TextChannel channel) {
@@ -86,7 +78,6 @@ public class BotListeners extends ListenerAdapter {
 
     private void playPingPong(TextChannel channel) {
         channel.sendMessage("Pong! 🏓").queue();
-
     }
 
     private void sendNewsInSlideShow(TextChannel channel) {
@@ -127,7 +118,6 @@ public class BotListeners extends ListenerAdapter {
                 event.getMessage().editMessage(slideShow.getCurrentSlide()).queue();
             }
             case "delete-article" -> event.getMessage().delete().queue();
-
         }
         event.deferEdit().queue();
     }
