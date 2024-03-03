@@ -23,7 +23,7 @@ public class WebsiteMonitor extends Thread {
             scraper.refreshNewsDocuments();
             System.out.println("News refreshed at " + java.time.LocalTime.now());
             try {
-                int refreshRateInMinutes = 10;
+                long refreshRateInMinutes = (long) 0.3;
                 Thread.sleep(60000 * refreshRateInMinutes); //minutes
             } catch (Exception e) {
                 System.out.println(Unicodes.red + "WebsiteMonitor thread interrupted!" + Unicodes.reset);

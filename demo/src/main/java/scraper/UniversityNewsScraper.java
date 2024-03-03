@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 /**
+ * This is an abstract class responsible for fetching news from a specified website and
+ * generate news article objects.
+ *
  * @author Philip Athanasopoulos
  */
 public abstract class UniversityNewsScraper extends Scraper {
@@ -25,7 +28,8 @@ public abstract class UniversityNewsScraper extends Scraper {
     protected Document latestNewsDocument = null;
     private volatile boolean needToSendUpdates = false;
 
-    public UniversityNewsScraper() {
+    public UniversityNewsScraper(String newsLink) {
+        this.newsLink = newsLink;
         articles = new ArrayList<>();
         websiteMonitor = new WebsiteMonitor(this);
         websiteMonitor.start();
@@ -60,6 +64,7 @@ public abstract class UniversityNewsScraper extends Scraper {
                 setNeedToSendUpdates(true);
             }
         } catch (Exception exception) {
+            System.out.println(exception.getMessage());
             switch (exception.getClass().getSimpleName()) {
                 case "connectException":
                     printErrorMessage("Could not connect to CSE website");

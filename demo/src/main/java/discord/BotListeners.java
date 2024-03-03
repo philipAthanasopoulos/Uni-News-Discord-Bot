@@ -12,6 +12,8 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.jetbrains.annotations.NotNull;
+import scraper.AuthNewsScraper;
+import scraper.UniversityNewsScraper;
 import scraper.UoiCSENewsScraper;
 
 import java.util.Objects;
@@ -24,7 +26,7 @@ import java.util.Objects;
  */
 public class BotListeners extends ListenerAdapter {
     private final JDA jda;
-    private final UoiCSENewsScraper scraper;
+    private final UniversityNewsScraper scraper;
     private final NewsMonitor newsMonitor;
     private DiscordSlideShow slideShow;
     private final DiscordNewsPresenter newsPresenter;

@@ -1,7 +1,7 @@
 package discord;
 
 import domain.Article;
-import scraper.UoiCSENewsScraper;
+import scraper.UniversityNewsScraper;
 
 import java.util.ArrayList;
 
@@ -14,9 +14,9 @@ import java.util.ArrayList;
  */
 public class DiscordNewsPresenter {
     private final int MAX_DISCORD_MESSAGE_LENGTH = 2000;
-    private final UoiCSENewsScraper scraper;
+    private final UniversityNewsScraper scraper;
 
-    public DiscordNewsPresenter(UoiCSENewsScraper scraper) {
+    public DiscordNewsPresenter(UniversityNewsScraper scraper) {
         this.scraper = scraper;
     }
 

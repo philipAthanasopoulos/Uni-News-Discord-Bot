@@ -11,8 +11,7 @@ import org.jsoup.select.Elements;
 public class UoiCSENewsScraper extends UniversityNewsScraper {
 
     public UoiCSENewsScraper() {
-        super();
-        newsLink = "https://www.cse.uoi.gr/nea/";
+        super("https://www.cse.uoi.gr/nea/");
         articleTitleClassname = ".cs-heading-sec";
         contentClassname = ".cs-editor-text";
         classnamesToBeRemoved = "a:contains(WordPress)," + "a:contains(online)," + "a:contains(free)," + "a:contains(course)," + "a:contains(udemy)";
@@ -23,8 +22,15 @@ public class UoiCSENewsScraper extends UniversityNewsScraper {
         return document.select(".cs-post-panel").select("a[target=_blank]");
     }
 
+
     @Override
     protected Elements selecteNewsLinksFromDocument() {
         return latestNewsDocument.select(".cs-campus-info").select("h6").select("a[href]");
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        UoiCSENewsScraper scraper = new UoiCSENewsScraper();
+        System.out.println(scraper.getArticles().size());
+        System.out.println(scraper.getLatestArticle());
     }
 }
