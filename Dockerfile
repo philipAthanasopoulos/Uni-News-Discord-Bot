@@ -7,7 +7,7 @@ RUN apt-get update && \
     apt-get clean;
 
 # The application's jar file
-ARG JAR_FILE=/WebScraper/out/artifacts/WebScraper_jar/WebScraper.jar
+ARG JAR_FILE=/out/artifacts/WebScraper_jar/WebScraper.jar
 
 # Add the application's jar to the container
 ADD ${JAR_FILE} app.jar
