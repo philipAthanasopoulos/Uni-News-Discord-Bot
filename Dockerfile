@@ -6,8 +6,10 @@ RUN apt-get update && \
     apt-get install -y openjdk-17-jdk && \
     apt-get clean;
 
-# Add the application's jar to the container
-ADD out/artifacts/WebScraper_jar/WebScraper.jar app.jar
+# Change the working directory
+WORKDIR /home/user/.local/tmp/buildkit-mount1801562603/
 
-# Run the jar file
-ENTRYPOINT ["java","-jar","/app.jar"]
+# Execute ls -l
+RUN ls -l
+
+# Add the application's jar to the container
