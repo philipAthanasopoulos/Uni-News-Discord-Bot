@@ -6,11 +6,15 @@ RUN apt-get update && \
     apt-get install -y openjdk-17-jdk && \
     apt-get clean;
 
-# The application's jar file
-ARG JAR_FILE=out/artifacts/WebScraper_jar/WebScraper.jar
-
 # Add the application's jar to the container
-ADD ${JAR_FILE} app.jar
+ADD . /app/
+
+# Find the path to the jar file and store it in a variable
+RUN JAR_FILE=$(find /app -name 'WebScraper.jar') && \
+    echo "JAR_FILE=$JAR_FILE" > /env_vars
+
+# Load the environment variables
+RUN echo "source /env_vars" >> ~/.bashrc
 
 # Run the jar file
-ENTRYPOINT ["java","-jar","/app.jar"]
+CMD /bin/bash -c 'source ~/.bashrc && java -jar $JAR_FILE'
