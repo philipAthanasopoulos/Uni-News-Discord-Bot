@@ -7,14 +7,7 @@ RUN apt-get update && \
     apt-get clean;
 
 # Add the application's jar to the container
-ADD . /app/
-
-# Find the path to the jar file and store it in a variable
-RUN JAR_FILE=$(find /app -name 'WebScraper.jar') && \
-    echo "JAR_FILE=$JAR_FILE" > /env_vars
-
-# Load the environment variables
-RUN echo "source /env_vars" >> ~/.bashrc
+ADD out/artifacts/WebScraper_jar/WebScraper.jar app.jar
 
 # Run the jar file
-CMD /bin/bash -c 'source ~/.bashrc && java -jar $JAR_FILE'
+ENTRYPOINT ["java","-jar","/app.jar"]
