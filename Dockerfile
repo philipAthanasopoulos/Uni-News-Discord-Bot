@@ -1,13 +1,17 @@
-# Start with a base image containing Ubuntu
-FROM ubuntu:latest
+# Start with a base image for Maven
+FROM maven:3.8.5-openjdk-17 AS build
 
+# Copy your project files into the Docker image
+COPY . .
 
-# Change the working directory
-WORKDIR /home/user/.local/tmp/buildkit-mount1801562603/
+# Use Maven to build your project
+RUN mvn clean package -DskipTests
 
-# Execute ls -l
-RUN echo "Listing directory contents:" && \
-    ls -l && \
-    echo "End of directory listing"
+# Start a new stage with an OpenJDK base image
+FROM openjdk:17.0.1-jdk-slim
 
-# Add the application's jar to the container
+# Copy the .jar file from the first stage into the second stage
+COPY --from=build /target/demo-0.0.1-SNAPSHOT.jar demo.jar
+
+# Set the ENTRYPOINT to run your .jar file
+ENTRYPOINT ["java","-jar","demo.jar"]
