@@ -1,6 +1,9 @@
 # Start with a base image for Maven
 FROM maven:3.8.5-openjdk-17 AS build
 
+# Set the working directory in the Docker image
+WORKDIR /demo
+
 # Copy your project files into the Docker image
 COPY . .
 
@@ -11,7 +14,7 @@ RUN mvn clean package -DskipTests
 FROM openjdk:17.0.1-jdk-slim
 
 # Copy the .jar file from the first stage into the second stage
-COPY --from=build /target/demo-0.0.1-SNAPSHOT.jar demo.jar
+COPY --from=build /demo/target/demo-0.0.1-SNAPSHOT.jar demo.jar
 
 # Set the ENTRYPOINT to run your .jar file
 ENTRYPOINT ["java","-jar","demo.jar"]
