@@ -91,6 +91,7 @@
       <version>2.3.2</version>
     </dependency>
     <dependency>
+
       <groupId>org.jetbrains</groupId>
       <artifactId>annotations</artifactId>
       <version>13.0</version>
@@ -115,6 +116,21 @@
           </executions>
           <configuration>
             <mainClass>discord.DiscordBot</mainClass>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.2.0</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <addClasspath>true</addClasspath>
+                <classpathPrefix>lib/</classpathPrefix>
+                <mainClass>discord.DiscordBot</mainClass>
+              </manifest>
+            </archive>
           </configuration>
         </plugin>
 
