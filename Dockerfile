@@ -1,8 +1,3 @@
-FROM openjdk:21
-
-WORKDIR /usr/src
-
-COPY out/artifacts/WebScraper_jar/WebScraper.jar /usr/src/WebScraper.jar
-
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "WebScraper.jar"]
+FROM openjdk:22-jdk
+COPY out/artifacts/WebScraper_jar/WebScraper.jar bot.jar
+ENTRYPOINT ["java", "-jar", "/bot.jar"]
