@@ -110,7 +110,7 @@ public class BotListeners extends ListenerAdapter {
 
         String button_id = event.getButton().getId();
 
-        switch (Objects.requireNonNull(button_id)) {
+        switch (button_id) {
             case "next-article" -> {
                 slideShow.moveToNextSlide();
                 event.getMessage().editMessage(slideShow.getCurrentSlide()).queue();

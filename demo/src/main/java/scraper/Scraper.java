@@ -1,16 +1,12 @@
 package scraper;
 
 import app.Unicodes;
-import javafx.stage.FileChooser;
 import org.jetbrains.annotations.NotNull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -58,26 +54,6 @@ public class Scraper implements IScraper {
         classes.remove("."); // Classes should start with a dot
         // A dot by itself is not a class , not sure why Jsoup adds it
         return classes;
-    }
-
-    public boolean saveScrapedText(String text) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save scraped text");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text Files", "*.txt"), new FileChooser.ExtensionFilter("All Files", "*.*"));
-        File file = fileChooser.showSaveDialog(null);
-        if (file != null) {
-            try {
-                FileWriter writer = new FileWriter(file);
-                writer.write(text);
-                writer.close();
-                return true;
-            } catch (IOException e) {
-                System.out.println("Error: " + Unicodes.red + e + Unicodes.reset);
-                return false;
-            }
-        } else {
-            return false;
-        }
     }
 
     protected void printScraperInitializationMessage() {

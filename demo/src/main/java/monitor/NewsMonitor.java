@@ -16,7 +16,7 @@ public class NewsMonitor extends Thread {
     @Override
     public void run() {
         while (true) try {
-            if (scraper.needsToSendUpdates()) {
+            if (scraper.isNeedToSendUpdates()) {
                 listeners.sendNewsInSlideShowToAllServers();
                 scraper.setNeedToSendUpdates(false);
             }

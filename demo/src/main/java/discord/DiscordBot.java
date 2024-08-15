@@ -36,7 +36,7 @@ public class DiscordBot {
 
         JDA jda;
         try {
-            jda = JDABuilder.createDefault(DiscordToken.token, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS))
+            jda = JDABuilder.createDefault(new DiscordToken().getToken(), GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS))
                     .setActivity(Activity.playing("with the UoI website"))
                     .build()
                     .awaitReady();

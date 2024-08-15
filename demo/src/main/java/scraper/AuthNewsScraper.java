@@ -24,7 +24,7 @@ public class AuthNewsScraper extends UniversityNewsScraper{
 
 
     @Override
-    protected Elements selecteNewsLinksFromDocument() {
+    protected Elements selectNewsLinksFromDocument() {
         return latestNewsDocument.select(".ue-post-link-overlay").select("a[href]");
     }
 

@@ -2,15 +2,16 @@ package scraper;
 
 import app.Unicodes;
 import domain.Article;
+import lombok.Getter;
+import lombok.Setter;
 import monitor.WebsiteMonitor;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
  * This is an abstract class responsible for fetching news from a specified website and
@@ -23,9 +24,13 @@ public abstract class UniversityNewsScraper extends Scraper {
     protected static String contentClassname;
     protected String classnamesToBeRemoved;
     protected String newsLink;
+    @Getter
     protected final ArrayList<Article> articles;
     protected final WebsiteMonitor websiteMonitor;
+    @Setter
     protected Document latestNewsDocument = null;
+    @Setter
+    @Getter
     private volatile boolean needToSendUpdates = false;
 
     public UniversityNewsScraper(String newsLink) {
@@ -36,26 +41,20 @@ public abstract class UniversityNewsScraper extends Scraper {
         printScraperInitializationMessage();
     }
 
-    @NotNull
-    private static Elements getDocumentContents(@NotNull Document document) {
+    private static Elements getDocumentContents(Document document) {
         return document.select(contentClassname);
     }
 
-    @Nullable
-    private static Element getDocumentTitle(@NotNull Document document) {
+    private static Element getDocumentTitle(Document document) {
         return document.select(articleTitleClassname).first();
-    }
-
-    public ArrayList<Article> getArticles() {
-        return articles;
     }
 
     public void refreshNewsDocuments() {
         try {
             Document freshNewsDocument = scrapeSite(newsLink);
             if (newsHaveChanged(freshNewsDocument)) {
-                latestNewsDocument = freshNewsDocument;
-                articles.clear();
+                setLatestNewsDocument(freshNewsDocument);
+                clearArticles();
                 for (String newsArticleLink : getNewsLinks()) {
                     Document articleDocument = scrapeSite(newsArticleLink);
                     removeUnwantedElements(articleDocument);
@@ -66,29 +65,26 @@ public abstract class UniversityNewsScraper extends Scraper {
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
             switch (exception.getClass().getSimpleName()) {
-                case "connectException":
-                    printErrorMessage("Could not connect to CSE website");
-                    break;
-                case "socketException":
-                    printErrorMessage("Something went wrong while trying to access socket");
-                    break;
-                case "socketTimeoutException":
-                    printErrorMessage("Timed out while trying to receive data");
-                    break;
-                default:
-                    printErrorMessage("Something went wrong while refreshing the news");
+                case "connectException" -> printErrorMessage("Could not connect to CSE website");
+                case "socketException" -> printErrorMessage("Something went wrong while trying to access socket");
+                case "socketTimeoutException" -> printErrorMessage("Timed out while trying to receive data");
+                default -> printErrorMessage("Something went wrong while refreshing the news");
             }
-            printAttentionMessage("Retrying news refresh...");
+            printAttentionMessage();
             refreshNewsDocuments();
         }
+    }
+
+    private void clearArticles() {
+        articles.clear();
     }
 
     private void printErrorMessage(String message) {
         System.out.println(Unicodes.red + message + Unicodes.reset);
     }
 
-    private void printAttentionMessage(String message) {
-        System.out.println(Unicodes.yellow + message + Unicodes.reset);
+    private void printAttentionMessage() {
+        System.out.println(Unicodes.yellow + "Retrying news refresh..." + Unicodes.reset);
     }
 
     private boolean newsHaveChanged(Document freshNewsDocument) {
@@ -105,23 +101,19 @@ public abstract class UniversityNewsScraper extends Scraper {
     }
 
     protected TreeSet<String> getExternalLinksFromDocument(Document document) {
-        var links = selectExternalLinksFromArticle(document);
-        TreeSet<String> urls = new TreeSet<>();
-        for (Element link : links)
-            if (!link.text().isEmpty()) urls.add(link.attr("abs:href"));
-        return urls;
+        return selectExternalLinksFromArticle(document).stream()
+                .filter(link -> !link.text().isEmpty())
+                .map(link -> link.attr("abs:href"))
+                .collect(Collectors.toCollection(TreeSet::new));
     }
 
     protected abstract Elements selectExternalLinksFromArticle(Document document);
 
     protected ArrayList<String> getNewsLinks() {
-        ArrayList<String> newsLinks = new ArrayList<>();
-        Elements links = selecteNewsLinksFromDocument();
-        links.forEach(link -> newsLinks.add(link.attr("abs:href")));
-        return newsLinks;
+        return selectNewsLinksFromDocument().stream().map(link ->link.attr("abs:href")).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    private void removeUnwantedElements(@NotNull Document document) {
+    private void removeUnwantedElements( Document document) {
         Elements elementsToRemove = document.select(classnamesToBeRemoved).remove();
         elementsToRemove.forEach(Element::remove);
     }
@@ -130,13 +122,5 @@ public abstract class UniversityNewsScraper extends Scraper {
         return this.articles.get(0);
     }
 
-    public boolean needsToSendUpdates() {
-        return needToSendUpdates;
-    }
-
-    public void setNeedToSendUpdates(boolean needToSendUpdates) {
-        this.needToSendUpdates = needToSendUpdates;
-    }
-
-    protected abstract Elements selecteNewsLinksFromDocument();
+    protected abstract Elements selectNewsLinksFromDocument();
 }

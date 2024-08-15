@@ -12,6 +12,7 @@ import app.Unicodes;
  */
 public class WebsiteMonitor extends Thread {
     private final UniversityNewsScraper scraper;
+    private final long refreshRateInMinutes = 1L;
 
     public WebsiteMonitor(UniversityNewsScraper scraper) {
         this.scraper = scraper;
@@ -23,7 +24,6 @@ public class WebsiteMonitor extends Thread {
             scraper.refreshNewsDocuments();
             System.out.println("News refreshed at " + java.time.LocalTime.now());
             try {
-                long refreshRateInMinutes = (long) 0.3;
                 Thread.sleep(60000 * refreshRateInMinutes); //minutes
             } catch (Exception e) {
                 System.out.println(Unicodes.red + "WebsiteMonitor thread interrupted!" + Unicodes.reset);
