@@ -1,0 +1,15 @@
+discord\DiscordNewsPresenter.class
+scraper\AuthNewsScraper.class
+discord\BotListeners.class
+discord\DiscordSlideShow.class
+app\Unicodes.class
+scraper\UoiCSENewsScraper.class
+discord\DiscordBot.class
+monitor\NewsMonitor.class
+scraper\Scraper.class
+espresso\Espresso.class
+scraper\IScraper.class
+discord\DiscordToken.class
+domain\Article.class
+monitor\WebsiteMonitor.class
+scraper\UniversityNewsScraper.class
