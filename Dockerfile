@@ -1,3 +1,3 @@
-FROM openjdk:22-jdk
-COPY out/artifacts/WebScraper_jar/WebScraper.jar bot.jar
-ENTRYPOINT ["java", "-jar", "/bot.jar"]
+FROM openjdk:22
+COPY demo/target/demo-1.0-SNAPSHOT.jar /app.jar
+ENTRYPOINT ["java" ,"-jar" , "app.jar"]
