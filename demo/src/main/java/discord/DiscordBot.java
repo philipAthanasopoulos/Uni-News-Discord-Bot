@@ -7,6 +7,9 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Timer;
 
 public class DiscordBot {
@@ -35,7 +38,7 @@ public class DiscordBot {
             "MMMMMMMMMMMMMMMMMMWNKOxdlldKWMMMMMMMMMMMMMMMMMMMMMMWKdlldxOKNWMMMMMMMMMMMMMMMMMM\n" +
             "MMMMMMMMMMMMMMMMMMMMMMWNK0XWMMMMMMMMMMMMMMMMMMMMMMMMWX0KNWMMMMMMMMMMMMMMMMMMMMMM\n";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         JDA jda;
         try {
@@ -53,6 +56,9 @@ public class DiscordBot {
         Timer timer = new Timer();
         Espresso espresso = new Espresso();
         timer.schedule(espresso,0,3*60000);
+
+        ServerSocket serverSocket = new ServerSocket(4000);
+        Socket socket = serverSocket.accept();
     }
 
     private static void printDiscordLogo() {
