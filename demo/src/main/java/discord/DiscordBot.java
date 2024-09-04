@@ -1,10 +1,13 @@
 package discord;
 
 import app.Unicodes;
+import espresso.Espresso;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+
+import java.util.Timer;
 
 public class DiscordBot {
     public static String banner =
@@ -40,16 +43,22 @@ public class DiscordBot {
                     .setActivity(Activity.playing("with the UoI website"))
                     .build()
                     .awaitReady();
-        } catch (InterruptedException e) {
+            printDiscordLogo();
+            jda.addEventListener(new BotListeners(jda));
+        } catch (Exception e) {
             System.out.println(Unicodes.red + "Could not create JDA" + Unicodes.reset);
-            throw new RuntimeException();
+            System.out.println(e.getMessage());
         }
+        //Drink espresso here and there
+        Timer timer = new Timer();
+        Espresso espresso = new Espresso();
+        timer.schedule(espresso,0,3*60000);
+    }
 
+    private static void printDiscordLogo() {
         for (char letter : banner.toCharArray()) {
             if (letter == 'M') System.out.print(letter);
             else System.out.print(Unicodes.blue + letter + Unicodes.reset);
         }
-
-        jda.addEventListener(new BotListeners(jda));
     }
 }

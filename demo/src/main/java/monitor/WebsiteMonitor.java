@@ -12,7 +12,7 @@ import app.Unicodes;
  */
 public class WebsiteMonitor extends Thread {
     private final UniversityNewsScraper scraper;
-    private final long refreshRateInMinutes = 1L;
+    private final Long refreshRateInMinutes = 1L;
 
     public WebsiteMonitor(UniversityNewsScraper scraper) {
         this.scraper = scraper;

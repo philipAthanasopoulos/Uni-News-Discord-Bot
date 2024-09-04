@@ -1,9 +1,10 @@
 package discord;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DiscordSlideShow {
-    private final ArrayList<String> slides;
+    private final List<String> slides;
     private int currentSlideIndex = 0;
 
     public DiscordSlideShow() {

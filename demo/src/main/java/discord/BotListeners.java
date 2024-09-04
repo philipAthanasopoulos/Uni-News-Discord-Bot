@@ -26,16 +26,15 @@ import java.util.Objects;
  */
 public class BotListeners extends ListenerAdapter {
     private final JDA jda;
-    private final UniversityNewsScraper scraper;
     private final NewsMonitor newsMonitor;
     private DiscordSlideShow slideShow;
     private final DiscordNewsPresenter newsPresenter;
 
     public BotListeners(JDA jda) {
+        UniversityNewsScraper scraper = new UoiCSENewsScraper();
         this.jda = jda;
-        this.scraper = new UoiCSENewsScraper();
-        newsPresenter = new DiscordNewsPresenter(scraper);
-        newsMonitor = new NewsMonitor(scraper, this);
+        this.newsPresenter = new DiscordNewsPresenter(scraper);
+        this.newsMonitor = new NewsMonitor(scraper, this);
         startNewsMonitor();
     }
 

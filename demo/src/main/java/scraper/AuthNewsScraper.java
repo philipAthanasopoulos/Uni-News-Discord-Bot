@@ -31,6 +31,6 @@ public class AuthNewsScraper extends UniversityNewsScraper{
     public static void main(String[] args) throws InterruptedException {
         AuthNewsScraper scraper = new AuthNewsScraper();
         Thread.sleep(20000);
-        for(Article article: scraper.getArticles()) System.out.println(article.getContent());
+        for(Article article: scraper.getArticles()) System.out.println(article.contents());
     }
 }

@@ -92,12 +92,12 @@ public abstract class UniversityNewsScraper extends Scraper {
     }
 
     private Article getArticleFromDocument(Document document) {
-        Element title = UniversityNewsScraper.getDocumentTitle(document);
-        Elements contents = UniversityNewsScraper.getDocumentContents(document);
+        StringBuilder contents = new StringBuilder(UniversityNewsScraper.getDocumentContents(document).text());
+        getExternalLinksFromDocument(document).forEach(contents::append);
+
+        String title = UniversityNewsScraper.getDocumentTitle(document).text();
         String link = document.baseUri();
-        Article article = new Article(title.text(), contents.text(), link);
-        for (String url : getExternalLinksFromDocument(document)) article.appendLineToContent(url);
-        return article;
+        return new Article(title, contents.toString(), link);
     }
 
     protected TreeSet<String> getExternalLinksFromDocument(Document document) {
@@ -110,10 +110,10 @@ public abstract class UniversityNewsScraper extends Scraper {
     protected abstract Elements selectExternalLinksFromArticle(Document document);
 
     protected ArrayList<String> getNewsLinks() {
-        return selectNewsLinksFromDocument().stream().map(link ->link.attr("abs:href")).collect(Collectors.toCollection(ArrayList::new));
+        return selectNewsLinksFromDocument().stream().map(link -> link.attr("abs:href")).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    private void removeUnwantedElements( Document document) {
+    private void removeUnwantedElements(Document document) {
         Elements elementsToRemove = document.select(classnamesToBeRemoved).remove();
         elementsToRemove.forEach(Element::remove);
     }

@@ -1,9 +1,11 @@
 package discord;
 
 import domain.Article;
+import net.dv8tion.jda.api.entities.Message;
 import scraper.UniversityNewsScraper;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * The News presenter is responsible for formatting the news articles for discord.
@@ -13,7 +15,6 @@ import java.util.ArrayList;
  * @author Philip Athanasopoulos
  */
 public class DiscordNewsPresenter {
-    private final int MAX_DISCORD_MESSAGE_LENGTH = 2000;
     private final UniversityNewsScraper scraper;
 
     public DiscordNewsPresenter(UniversityNewsScraper scraper) {
@@ -21,11 +22,16 @@ public class DiscordNewsPresenter {
     }
 
     public String getArticleAsDiscordMessage(Article article) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("## ").append(article.getTitle()).append("  \n").append("> ").append(article.getContent()).append(" ").append("\n");
+        StringBuilder stringBuilder = new StringBuilder()
+                .append("## ")
+                .append(article.title())
+                .append("  \n")
+                .append("> ")
+                .append(article.contents())
+                .append(" ")
+                .append("\n");
 
-        if (stringBuilder.length() > MAX_DISCORD_MESSAGE_LENGTH) trimArticle(stringBuilder, article.getLink());
-
+        if (stringBuilder.length() > Message.MAX_CONTENT_LENGTH) trimArticle(stringBuilder, article.link());
         return stringBuilder.toString();
     }
 
@@ -37,20 +43,18 @@ public class DiscordNewsPresenter {
     }
 
     public ArrayList<String> getNewsAsDiscordMessages() {
-        ArrayList<String> messages = new ArrayList<>();
-        for (Article article : scraper.getArticles())
-            messages.add(getArticleAsDiscordMessage(article));
-        return messages;
+        return scraper.getArticles().stream()
+                .map(this::getArticleAsDiscordMessage)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public String getLatestNewsAsDiscordMessage() {
-        Article article = scraper.getLatestArticle();
-        return getArticleAsDiscordMessage(article);
+        return getArticleAsDiscordMessage(scraper.getLatestArticle());
     }
 
     private void trimArticle(StringBuilder stringBuilder, String link) {
         String redirectMessage = " ***....[Read more](" + link + ")***";
-        stringBuilder.delete(MAX_DISCORD_MESSAGE_LENGTH - redirectMessage.length(), stringBuilder.length());
+        stringBuilder.delete(Message.MAX_CONTENT_LENGTH - redirectMessage.length(), stringBuilder.length());
         stringBuilder.append(redirectMessage);
     }
 }

@@ -1,8 +1,8 @@
 package monitor;
 
+import app.Unicodes;
 import discord.BotListeners;
 import scraper.UniversityNewsScraper;
-import app.Unicodes;
 
 public class NewsMonitor extends Thread {
     private final UniversityNewsScraper scraper;
